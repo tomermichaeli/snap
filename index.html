@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+
+</head>
+<body>
+
+
+<script>
+    window.addEventListener('load', () => {
+    const now = new Date();
+    // console.log(now.getTimezoneOffset())
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    console.log(now.toISOString().split(".")[0])
+    console.log(now.toISOString().slice(0,16))
+    document.getElementById('time').value = now.toISOString().slice(0,16);
+    // document.getElementById('time').value = now.toISOString().slice(0,-1);
+
+    });
+</script>
+
+
+
+
+<script>
+    const {MongoClient} = require('mongodb');
+    const uri = "mongodb+srv://test:test@cluster0.anx9a.mongodb.net/thenewsil?retryWrites=true&w=majority";
+    const client = new MongoClient(uri);
+
+    // await client.connect();
+ 
+    //     // Make the appropriate DB calls
+    //     // await  listDatabases(client);
+    //     // await  getCollection(client);
+    //     // findOneListingByName(client, 0);
+    //     // getUpdateList(client, "thenewsil", "updates")
+    //     console.log("yeah")
+
+ 
+    // } catch (e) {
+    //     console.error(e);
+    // } finally {
+    //     // await client.close();
+    // }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Posting data from HTML to Mongo</h1>
+<div class="main-container">
+<div class="new-update-container">
+    <form method="post" action="/">
+        <div><input type="datetime-local" name="time" id="time"></div>
+        <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת"></textarea></div>
+        <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה"></textarea></div>
+        <div><button>Send!</button></div>
+    </form>
+</div>
+
+
+<div id="old" name="old" class="update-list-container">
+    a
+</div>
+
+
+
+
+
+
+<script>
+    let table = document.createElement('table');
+    let row = table.insertRow();
+    let cell = row.insertCell();
+    cell.textContent = "New Cell!";
+    document.body.appendChild(table);
+</script>
+
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!-- <div><textarea name="headline" id="headline" cols="30" rows="4" ></textarea></div> -->

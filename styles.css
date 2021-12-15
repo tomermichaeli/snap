@@ -1,0 +1,246 @@
+/* .new-update-container{
+    width: 75%;
+    position: fixed;
+    left: 10rem;
+    background-color: aqua;
+    color: red;
+} */
+
+@import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+  font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+
+.main-container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
+/* .new-update-container{
+    
+}
+.update-list-container{
+
+} */
+
+
+.new-update-container{
+    /* direction: rtl;  */
+    text-align: right;
+    width: 50%;
+    background-color: #DBDADA;
+    
+}
+.old-update-container{
+    /* direction: rtl;  */
+    text-align: right;
+    background-color: #DBDADA;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+
+
+.update-list-container{
+    direction: rtl; 
+    text-align: right;
+    width: 45%;
+    background-color: #DBDADA;
+    /* color: #000; */
+    
+}
+
+div{
+    color: black;
+}
+
+textarea{
+    resize: none;
+    overflow: auto;
+}
+
+input{
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    /* direction: ltr; */
+    font-size: 1rem;
+    padding-right: 1rem;
+    border: none;
+    color: #D77370;
+    background-color: #DBDADA;
+    font-weight:900;
+    padding-top: 0.5rem;
+}
+
+.headline{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 2rem;
+    width: 90%;
+    border: none;
+    padding-right: 1rem;
+    outline: none;
+    background-color: #DBDADA;
+}
+
+.body{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1.5rem;
+    width: 90%;
+    border: none;
+    padding-right: 1rem;
+    outline: none;
+    background-color: #DBDADA;
+}
+
+
+.headline-old{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1.75rem;
+    width: 90%;
+    border: none;
+    outline: none;
+    /* background-color: #DBDADA; */
+    line-height: 2.25rem;
+}
+
+.body-old{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1.25rem;
+    width: 90%;
+    border: none;
+    outline: none;
+    /* background-color: #DBDADA; */
+}
+.time-old{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1rem;
+    width: 90%;
+    border: none;
+    outline: none;
+    /* background-color: #DBDADA; */
+    color: #D77370;
+    font-weight:700;
+}
+
+
+
+
+
+div.sendbutton{
+    margin-top: 1rem;
+
+}
+.sendbutton{
+    width:90%;
+    text-align: center;
+    margin: auto;
+    background-color: #D77370;
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight:700;
+    border-radius: 0.5rem;
+}
+
+
+h1.pagetitle{
+    padding-bottom: 0.75rem;
+}
+
+
+.objectid{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 0.25rem;
+    width: 90%;
+    border: none;
+    outline: none;
+    background-color: #DBDADA;
+    color: gray;
+    font-weight:500;
+}
+
+
+
+
+/*REVIEW PAGE*/
+.full-update-container{
+    /* direction: rtl;  */
+    text-align: right;
+    /* background-color: #DBDADA; */
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+.full-update-list-container{
+    direction: rtl; 
+    text-align: right;
+    width: 100%;
+    /* background-color: #DBDADA; */
+    /* color: #000; */
+    
+}
+.update-update-container{
+    /* direction: rtl;  */
+    text-align: right;
+    width: 100%;
+    background-color: #DBDADA;
+    padding-bottom: 1rem;
+}
+.display-objectid{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 0.75rem;
+    width: 90%;
+    border: none;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    outline: none;
+    background-color: #DBDADA;
+}
+div.updatebuttons{
+    width:90%;
+    margin-right: auto;
+    margin-left: auto;
+}
+.updatebutton, .deletebutton{
+    width:40%;
+    text-align: center;
+    margin: auto;
+    background-color: #D77370;
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight:700;
+    border-radius: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+
+.col-sm-8-upd{
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 40%;
+    max-width: 50%;
+}
+
+.col-sm-4-upd{
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    -ms-flex: 0 0 60%;
+    flex: 0 0 60%;
+    /* max-width: 50%; */
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="well">
+      <div class="jumbotron">
+      <div class="main-container">
+      <div class="update-update-container">
+        <form method="post" action="/create">
+            <div><textarea name="topic" id="topic" class="topic" placeholder="topic" rows="1"></textarea></div>
+            <div><input type="datetime-local" name="time" id="time"></div>
+            <div><textarea name="image" id="image" class="image" placeholder="path..." rows="1"></textarea></div>
+            <div><textarea name="title" id="title" class="title" placeholder="title" rows="1"></textarea></div>
+            <div><textarea name="heading" id="heading" class="heading" placeholder="Article Heading"></textarea></div>
+            <div><textarea name="author" id="author" class="author" placeholder="author" rows="1"></textarea></div>
+            <div><textarea name="body" id="body" class="body" placeholder="body" rows="10"></textarea></div>
+        </form>
+      </div>
+      </div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
