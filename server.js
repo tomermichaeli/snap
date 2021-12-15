@@ -329,14 +329,22 @@ app.post("/delete", function(req, res){
 
 // create article
 app.post("/create", function(req, res){
-    console.log('delete this:   ', usedid);
-    
-    var fso = CreateObject("Scripting.FileSystemObject");  
-    var s = fso.CreateTextFile("C:\test.txt", True);
-    s.writeline("HI");
-    s.writeline("Bye");
-    s.writeline("-----------------------------");
-    s.Close();
+    // console.log('delete this:   ', usedid);
+    console.log('creating file...')
+
+
+    var fs = require('fs');
+    var logger = fs.createWriteStream('articles/test.txt', {
+    flags: 'a' // 'a' means appending (old data will be preserved)
+    });
+
+    logger.write('--- \n')
+    logger.write('topic: ', String(req.body.topic), '\n'); // append string to your file
+    logger.write('date: ', String(req.body.date), '\n'); // again
+    logger.write('hero_image: ', String(req.body.image), '\n'); // again
+    logger.write('and more'); // again
+
+    logger.end();
 
 
     res.redirect("/");
