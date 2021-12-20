@@ -19,6 +19,18 @@ body {
     flex-direction: row-reverse;
     justify-content: space-around;
 }
+@media (max-width: 1200px) {
+    .main-container{
+        flex-direction: column;
+    }
+    .row{
+        flex-direction: column-reverse;
+    }
+    .col-sm-8-upd{
+        max-width: 100% !important;
+    }
+}
+
 /* .new-update-container{
     
 }
@@ -33,6 +45,13 @@ body {
     width: 50%;
     background-color: #DBDADA;
     
+}
+@media (max-width: 1200px) {
+    .new-update-container{
+        width: 100%;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 .old-update-container{
     /* direction: rtl;  */
@@ -52,6 +71,12 @@ body {
     /* color: #000; */
     
 }
+@media (max-width: 1200px) {
+    .update-list-container{
+        width: 100%;
+    }
+}
+
 
 div{
     color: black;
@@ -129,6 +154,66 @@ input{
     font-weight:700;
 }
 
+@media (max-width: 1200px) {
+    input{
+        font-size: 2.5rem;
+        padding-right: 3rem;
+    }
+    .headline{
+        font-size: 4.5rem;
+        padding-right: 3rem;
+    }
+    .body{
+        font-size: 3.5rem;
+        padding-right: 3rem;
+    }
+    h1{
+        font-size: 4rem;
+    }
+    .navbar{
+        padding: 1rem 2rem !important;
+    }
+    .navbar-brand{
+        font-size: 3rem !important; 
+        margin-right: 2rem !important;
+    }
+    .navbar-nav .nav-link{
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+    }
+    body{
+        font-size: 2.5rem !important;
+    }
+    .headline-old{
+        font-size: 4rem !important;
+        line-height: 4.25rem
+    }
+    .body-old{
+        font-size: 3rem !important;
+    }
+    .time-old{
+        font-size: 2rem;
+    }
+    .time-old-div{
+        padding-bottom: 1rem;
+    }
+    .headline-old-div{
+        padding-bottom: 1rem;
+    }
+    .objectid{
+        font-size: 1rem !important;
+    }
+    .updatebutton{
+        font-size: 2rem !important;
+    }
+    .deletebutton{
+        font-size: 2rem !important;
+    }
+    .display-objectid{
+        padding-right: 3rem !important;
+    }
+}
+
 
 
 
@@ -147,6 +232,13 @@ div.sendbutton{
     font-size: 1.25rem;
     font-weight:700;
     border-radius: 0.5rem;
+}
+@media (max-width: 1200px) {
+    .sendbutton{
+        font-size: 2rem;
+        padding: 0.3rem;
+        border-radius: 1rem;
+    }
 }
 
 

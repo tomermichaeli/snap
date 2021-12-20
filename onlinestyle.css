@@ -213,7 +213,7 @@ button:focus {
     outline: 5px auto -webkit-focus-ring-color;
 }
 button,
-input,
+/* input, */
 optgroup,
 select,
 textarea {
@@ -330,7 +330,7 @@ h6 {
 }
 .h1,
 h1 {
-    font-size: 2.5rem;
+    /* font-size: 2.5rem; */
 }
 .h2,
 h2 {
@@ -494,14 +494,14 @@ pre code {
 @media (min-width: 576px) {
     .container,
     .container-sm {
-        max-width: 540px;
+        /* max-width: 540px; */
     }
 }
 @media (min-width: 768px) {
     .container,
     .container-md,
     .container-sm {
-        max-width: 720px;
+        /* max-width: 720px; */
     }
 }
 @media (min-width: 992px) {
@@ -509,7 +509,7 @@ pre code {
     .container-lg,
     .container-md,
     .container-sm {
-        max-width: 960px;
+        /* max-width: 960px; */
     }
 }
 @media (min-width: 1200px) {
@@ -518,7 +518,7 @@ pre code {
     .container-md,
     .container-sm,
     .container-xl {
-        max-width: 1140px;
+        /* max-width: 1140px; */
     }
 }
 .row {
@@ -4022,14 +4022,16 @@ input[type="submit"].btn-block {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
-    flex-direction: column;
+    /* flex-direction: column; */
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
 }
 .navbar-nav .nav-link {
-    padding-right: 0;
-    padding-left: 0;
+    /* padding-right: 0;
+    padding-left: 0; */
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
 }
 .navbar-nav .dropdown-menu {
     position: static;
