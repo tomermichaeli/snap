@@ -1,6 +1,6 @@
 const express =  require("express");
 const app = express();
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 
 
@@ -142,6 +142,12 @@ app.get("/review", function(req, res)
 app.get("/create", function(req, res)
     {
         res.render('pages/create');
+    }
+);
+
+app.get("/login", function(req, res)
+    {
+        res.render('pages/login');
     }
 );
 
