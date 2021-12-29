@@ -9,20 +9,33 @@ app.set('view engine', 'ejs');
 //
 
 
-//twitter
-const {TwitterApi} = require('twitter-api-v2');
+// TWITTER
+const Twitter = require("twitter")
+const dotenv = require("dotenv")
+const fs = require("fs")
 
-const twitterclient = new TwitterApi({
-    appKey: 'xYgNiHCZ7MhPHKgGAB3Uc0NXA',
-    appSecret: 'RFiAAqXZwBqPojcHd1gz3a38dKibQvgy6ig1MscOrF5nXH9jwN',
-    accessToken: '3240451302-CGVdhIcgae6wx8OEj0tGrx1msGSCk1gVfslMSgA',
-    accessSecret: 'F2LA4PwrgCQrjjhd505nTJ2yP4UwP782UbMNsql1IKAMd',
-});
+dotenv.config()
+
+const client = new Twitter({
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token_key: process.env.ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET
+})
+
+// Tweet with Text
+// client.post("statuses/update", { status: "@orielamram test @ "+Date.now() }, function(error, tweet, response) {
+//   if (error) {
+//     console.log(error)
+//   } else {
+//     console.log(tweet)
+//   }
+// })
 
 
+// TWITTER
 
 
-//
 
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://test:test@cluster0.anx9a.mongodb.net/thenewsil?retryWrites=true&w=majority";
@@ -242,12 +255,23 @@ app.get("/updates", function(req, res)
 
 // create
 app.post("/", function(req, res){
-       let newUpd = new Doc({
+    console.log(req.body.tweet);
+    var toggleTweet = req.body.tweet;
+    let newUpd = new Doc({
         headline: req.body.headline,
         body: req.body.body,
-        time: req.body.time
+        time: req.body.time,
     });
     newUpd.save();
+    if(toggleTweet){
+        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+            if (error) {
+            console.log(error)
+            } else {
+            console.log(tweet)
+            }
+        });
+    }
     res.redirect("/");
 })
 
@@ -329,6 +353,15 @@ app.post("/delete", function(req, res){
     // res.redirect("/review?id=" + usedid);
     res.redirect("/review");
 })
+
+
+
+
+
+
+
+
+
 
 
 
