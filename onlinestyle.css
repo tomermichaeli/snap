@@ -148,7 +148,7 @@ sup {
     top: -0.5em;
 }
 a {
-    /* color: #007bff; */
+    color: gray;
     text-decoration: none;
     background-color: transparent;
 }
