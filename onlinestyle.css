@@ -486,8 +486,8 @@ pre code {
 .container-sm,
 .container-xl {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    /* padding-right: 15px;
+    padding-left: 15px; */
     margin-right: auto;
     margin-left: auto;
 }
@@ -4858,7 +4858,8 @@ a.badge-dark:focus {
 .jumbotron {
     padding: 1.5rem 1rem;
     margin-bottom: 2rem;
-    background-color: #e9ecef;
+    /* background-color: #e9ecef; */
+    /* background-color: #f8f9fa !important; */
     /* border-radius: 0.3rem; */
 }
 @media (min-width: 576px) {
@@ -6210,7 +6211,8 @@ button.bg-danger:hover {
     background-color: #bd2130 !important;
 }
 .bg-light {
-    background-color: #f8f9fa !important;
+    /* background-color: #f8f9fa !important; */
+    background-color: #e9ecef;
 }
 a.bg-light:focus,
 a.bg-light:hover,

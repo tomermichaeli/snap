@@ -43,8 +43,9 @@ body {
     /* direction: rtl;  */
     text-align: right;
     width: 50%;
-    background-color: #DBDADA;
-    
+    /* background-color: #DBDADA; */
+    background-color: #f8f9fa !important;
+    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.1);
 }
 @media (max-width: 1200px) {
     .new-update-container{
@@ -56,7 +57,7 @@ body {
 .old-update-container{
     /* direction: rtl;  */
     text-align: right;
-    background-color: #DBDADA;
+    /* background-color: #DBDADA; */
     padding-right: 1rem;
     padding-left: 1rem;
     padding-top: 0.5rem;
@@ -67,9 +68,10 @@ body {
     direction: rtl; 
     text-align: right;
     width: 45%;
-    background-color: #DBDADA;
+    /* background-color: #DBDADA; */
+    background-color: #f8f9fa !important;
     /* color: #000; */
-    
+    box-shadow: 0px 5px 6px rgba(0,0,0,0.1);
 }
 @media (max-width: 1200px) {
     .update-list-container{
@@ -94,7 +96,8 @@ input{
     padding-right: 1rem;
     border: none;
     color: #D77370;
-    background-color: #DBDADA;
+    /* background-color: #DBDADA; */
+    background-color: #f8f9fa !important;
     font-weight:900;
     padding-top: 0.5rem;
 }
@@ -107,7 +110,9 @@ input{
     border: none;
     padding-right: 1rem;
     outline: none;
-    background-color: #DBDADA;
+    /* background-color: #DBDADA; */
+    background-color: #f8f9fa !important;
+
 }
 
 .body{
@@ -118,7 +123,8 @@ input{
     border: none;
     padding-right: 1rem;
     outline: none;
-    background-color: #DBDADA;
+    /* background-color: #DBDADA; */
+    background-color: #f8f9fa !important;
 }
 
 
@@ -283,7 +289,7 @@ h1.pagetitle{
     /* direction: rtl;  */
     text-align: right;
     width: 100%;
-    background-color: #DBDADA;
+    background-color: #f8f9fa;
     padding-bottom: 1rem;
 }
 .display-objectid{
@@ -295,7 +301,7 @@ h1.pagetitle{
     padding-right: 1rem;
     padding-top: 1rem;
     outline: none;
-    background-color: #DBDADA;
+    background-color: #f8f9fa;
 }
 div.updatebuttons{
     width:90%;
