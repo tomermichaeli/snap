@@ -102,6 +102,7 @@ input{
     padding-top: 0.5rem;
 }
 
+
 .headline{
     direction: rtl;
     font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
@@ -323,6 +324,7 @@ div.updatebuttons{
 }
 
 
+
 .col-sm-8-upd{
     position: relative;
     width: 100%;
@@ -342,6 +344,25 @@ div.updatebuttons{
     flex: 0 0 60%;
     /* max-width: 50%; */
 }
+
+
+div.logout-button{
+    background-color: #D77370;
+    /* color: white; */
+    font-weight: 700;
+    border-radius: 0.5rem;
+}
+div.logout-button :hover{
+    background-color: #a03331;
+    border-radius: 0.5rem;
+}
+a.logout-text{
+    color: white;
+    padding: 0.25rem 0.5rem;
+}
+
+
+
 
 
 

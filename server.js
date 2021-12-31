@@ -2,9 +2,30 @@ const express =  require("express");
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const { auth } = require('express-openid-connect');
+const { requiresAuth } = require('express-openid-connect');
 
+
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'a long, randomly-generated string stored in env',
+    baseURL: 'http://localhost:3000',
+    clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
+    issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
+};
 
 app.set('view engine', 'ejs');
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+app.get('/a', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
+
+
 
 //
 
@@ -69,16 +90,34 @@ const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
 
 
 
-app.get("/", function(req, res)
+app.get("/", requiresAuth(), function(req, res)
     {
+        // if(req.oidc.isAuthenticated()){
+        //     console.log("in");
+        //     Doc.find({}, function(err, updates){
+        //         res.render('pages/index', {
+        //             updateList: updates
+        //         })
+        //     }).sort({"_id": -1}).limit(4);
+        // }
+        // else{
+        //     console.log('out');
+        //     res.redirect('/login')
+        // }
+
+
         // res.sendFile(__dirname + "/index.html");
         // res.send("hello!")
+
+
 
         Doc.find({}, function(err, updates){
             res.render('pages/index', {
                 updateList: updates
             })
         }).sort({"_id": -1}).limit(4);
+
+
 
         // res.render('pages/index', {
         //     data: datasend
@@ -90,7 +129,7 @@ app.get("/about", function(req, res)
         res.render('pages/about');
     }
 );
-app.get("/review", function(req, res)
+app.get("/review", requiresAuth(), function(req, res)
     {
         console.log('requested: ', req.query.id)
         var spotlightdoc = null;
@@ -152,7 +191,7 @@ app.get("/review", function(req, res)
             }
         )}
 
-app.get("/create", function(req, res)
+app.get("/create", requiresAuth(), function(req, res)
     {
         res.render('pages/create');
     }
