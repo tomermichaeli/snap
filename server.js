@@ -296,6 +296,7 @@ app.get("/updates", function(req, res)
 app.post("/", function(req, res){
     console.log(req.body.tweet);
     var toggleTweet = req.body.tweet;
+    var toggleThread = req.body.thread;
     let newUpd = new Doc({
         headline: req.body.headline,
         body: req.body.body,
@@ -307,7 +308,17 @@ app.post("/", function(req, res){
             if (error) {
             console.log(error)
             } else {
-            console.log(tweet)
+            console.log(tweet);
+            console.log("REPLY TO : " + tweet.id)
+            if(toggleThread){
+                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+                    if (error) {
+                    console.log(error2)
+                    } else {
+                    console.log(secondtweet)
+                    }
+                });
+            }
             }
         });
     }
