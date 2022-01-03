@@ -71,7 +71,8 @@ const DocSchema = {
     headline: String,
     body: String,
     // time: {type: Date, default: Date.now}
-    time: String
+    time: String,
+    tweet_id: Array
 }
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
@@ -290,6 +291,21 @@ app.get("/updates", function(req, res)
 // app.body.old.appendChild(table);
 
 
+function addTweetLink(docID, tweetID){
+    Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
+        if (!err) {
+            console.log('Added tweet id to document: \n  ', doc)
+            // doc.toObject({ getters: true });
+            // console.log('doc _id:', doc._id);
+            // spotlightdoc = doc;
+            // console.log('DOCUMENT   ', spotlightdoc)
+        }
+        else{
+            console.log(err)
+        }
+    })
+}
+
 
 
 // create
@@ -301,6 +317,7 @@ app.post("/", function(req, res){
         headline: req.body.headline,
         body: req.body.body,
         time: req.body.time,
+        tweet_id: [],
     });
     newUpd.save();
     if(toggleTweet){
@@ -309,6 +326,8 @@ app.post("/", function(req, res){
             console.log(error)
             } else {
             console.log(tweet);
+            console.log(newUpd._id);
+            addTweetLink(newUpd._id, tweet.id);
             console.log("REPLY TO : " + tweet.id)
             if(toggleThread){
                 client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
