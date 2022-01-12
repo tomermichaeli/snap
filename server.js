@@ -435,25 +435,44 @@ app.post("/delete", function(req, res){
 
 
 
-// create article
+// // create article
+// app.post("/create", function(req, res){
+//     // console.log('delete this:   ', usedid);
+//     console.log('creating file...')
+
+
+//     var fs = require('fs');
+//     var logger = fs.createWriteStream('articles/new.txt', {
+//     flags: 'a' // 'a' means appending (old data will be preserved)
+//     });
+
+//     logger.write('--- \n')
+//     logger.write('topic: ', String(req.body.topic), '\n'); // append string to your file
+//     logger.write('date: ', String(req.body.date), '\n'); // again
+//     logger.write('hero_image: ', String(req.body.image), '\n'); // again
+//     logger.write('and more'); // again
+
+//     logger.end();
+
+
+//     res.redirect("/");
+// })
+
+
+//create article 2
 app.post("/create", function(req, res){
     // console.log('delete this:   ', usedid);
     console.log('creating file...')
 
 
     var fs = require('fs');
-    var logger = fs.createWriteStream('articles/test.txt', {
-    flags: 'a' // 'a' means appending (old data will be preserved)
-    });
 
-    logger.write('--- \n')
-    logger.write('topic: ', String(req.body.topic), '\n'); // append string to your file
-    logger.write('date: ', String(req.body.date), '\n'); // again
-    logger.write('hero_image: ', String(req.body.image), '\n'); // again
-    logger.write('and more'); // again
-
-    logger.end();
-
+    fs.writeFile('articles/new.txt', '--- \n topic: ' + String(req.body.topic), '\n date: ' + String(req.body.date) + '\n hero_image: ' + String(req.body.image) + '\n and more', function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    }); 
 
     res.redirect("/");
 })
@@ -470,12 +489,10 @@ app.post("/create", function(req, res){
 
 
 
+var port = process.env.PORT || 3000;
 
-
-
-
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+app.listen(port, () => {
+    console.log("Server is running on port "+ port);
     // MongoClient.connect(uri, {useNewUrlParser: true}, {useUnifiedTopology: true}, (error, result) => {
     //     if (error) throw error;
     //     database = result.db("thenewsil")

@@ -227,10 +227,10 @@ input{
 
 div.sendbutton{
     margin-top: 1rem;
-
+    width: 90%;
 }
 .sendbutton{
-    width:90%;
+    width:100%;
     text-align: center;
     margin: auto;
     background-color: #D77370;
@@ -239,6 +239,9 @@ div.sendbutton{
     font-size: 1.25rem;
     font-weight:700;
     border-radius: 0.5rem;
+}
+div.sendbutton :hover{
+    background-color: #8b1814;
 }
 @media (max-width: 1200px) {
     .sendbutton{
