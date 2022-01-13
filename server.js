@@ -10,7 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    baseURL: 'http://localhost:3000',
+    // baseURL: 'http://localhost:3000',
+    baseURL: 'thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
