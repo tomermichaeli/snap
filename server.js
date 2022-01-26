@@ -73,7 +73,8 @@ const DocSchema = {
     body: String,
     // time: {type: Date, default: Date.now}
     time: String,
-    tweet_id: Array
+    // tweet_id: Array
+    tweet_id: String
 }
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
@@ -124,6 +125,42 @@ app.get("/", requiresAuth(), function(req, res)
         // res.render('pages/index', {
         //     data: datasend
         // });
+    }
+);
+app.get("/quote", requiresAuth(), function(req, res)
+    {
+        console.log('requested: ', req.query.id)
+        var spotlightdoc = null;
+        // var spotlightdoc = Doc.findOne({_id: req.query.id})
+        // var spotlightdoc = Doc.findOne({'_id': req.query.id}).lean()
+        // console.log('id: ', spotlightdoc._id)
+        
+
+        console.log(req.query.id)
+
+        if(req.query.id != null){
+            // find document with id:
+            Doc.findOne({'_id': req.query.id}).exec((err, quotedUpdate) => {
+                if (!err) {
+                    console.log('DOCUMENT   ', quotedUpdate)
+                    quotedUpdate.toObject({ getters: true });
+                    console.log('doc _id:', quotedUpdate._id);
+                    quotedTweetID = quotedUpdate.tweet_id;
+                    console.log(quotedTweetID);
+
+
+                    Doc.find({}, function(err, updates){
+                        res.render('pages/quote', {
+                            updateList: updates,
+                            quoted: quotedUpdate,
+                            quotedid: quotedUpdate._id
+                        })
+                    }).sort({"_id": -1}).limit(10);
+
+
+                }
+             })
+        }
     }
 );
 app.get("/about", function(req, res)
@@ -293,8 +330,9 @@ app.get("/updates", function(req, res)
 
 
 function addTweetLink(docID, tweetID){
-    Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
-        if (!err) {
+    // Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
+    Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: tweetID }}).exec((err, doc) => {
+            if (!err) {
             console.log('Added tweet id to document: \n  ', doc)
             // doc.toObject({ getters: true });
             // console.log('doc _id:', doc._id);
@@ -318,8 +356,8 @@ app.post("/", function(req, res){
         headline: req.body.headline,
         body: req.body.body,
         time: req.body.time,
-        // tweet_id: [],
-        tweet_id: tweet.id_str
+        tweet_id: "",
+        // tweet_id: tweet.id_str
     });
     newUpd.save();
     if(toggleTweet){
@@ -344,6 +382,43 @@ app.post("/", function(req, res){
         });
     }
     res.redirect("/");
+})
+
+app.post("/quote", function(req, res){
+    var toggleTweet = req.body.tweet;
+    var toggleThread = req.body.thread;
+    console.log("aaaaaa" + req.body.quotedid);
+    // let newUpd = new Doc({
+    //     headline: req.body.headline,
+    //     body: req.body.body,
+    //     time: req.body.time,
+    //     // tweet_id: [],
+    //     tweet_id: tweet.id_str,
+    //     quoting: req.body.quotedid
+    // });
+    // newUpd.save();
+    // if(toggleTweet){
+    //     client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+    //         if (error) {
+    //         console.log(error)
+    //         } else {
+    //         console.log(tweet);
+    //         console.log(newUpd._id);
+    //         addTweetLink(newUpd._id, tweet.id);
+    //         console.log("REPLY TO : " + tweet.id)
+    //         if(toggleThread){
+    //             client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+    //                 if (error) {
+    //                 console.log(error2)
+    //                 } else {
+    //                 console.log(secondtweet)
+    //                 }
+    //             });
+    //         }
+    //         }
+    //     });
+    // }
+    res.redirect("/quote");
 })
 
 // app.post("/review", function(req, res){
