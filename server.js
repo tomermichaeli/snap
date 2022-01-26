@@ -318,7 +318,8 @@ app.post("/", function(req, res){
         headline: req.body.headline,
         body: req.body.body,
         time: req.body.time,
-        tweet_id: [],
+        // tweet_id: [],
+        tweet_id: tweet.id_str
     });
     newUpd.save();
     if(toggleTweet){
