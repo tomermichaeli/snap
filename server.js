@@ -10,8 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://thenewsil.herokuapp.com',
+    baseURL: 'http://localhost:3000',
+    // baseURL: 'https://thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
@@ -74,7 +74,8 @@ const DocSchema = {
     // time: {type: Date, default: Date.now}
     time: String,
     // tweet_id: Array
-    tweet_id: String
+    tweet_id: String,
+    quoting: String
 }
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
@@ -333,7 +334,7 @@ function addTweetLink(docID, tweetID){
     // Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
     Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: tweetID }}).exec((err, doc) => {
             if (!err) {
-            console.log('Added tweet id to document: \n  ', doc)
+            console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
             // doc.toObject({ getters: true });
             // console.log('doc _id:', doc._id);
             // spotlightdoc = doc;
@@ -367,7 +368,8 @@ app.post("/", function(req, res){
             } else {
             console.log(tweet);
             console.log(newUpd._id);
-            addTweetLink(newUpd._id, tweet.id);
+            // addTweetLink(newUpd._id, tweet.id);
+            addTweetLink(newUpd._id, tweet.id_str);
             console.log("REPLY TO : " + tweet.id)
             if(toggleThread){
                 client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
@@ -385,40 +387,95 @@ app.post("/", function(req, res){
 })
 
 app.post("/quote", function(req, res){
-    var toggleTweet = req.body.tweet;
-    var toggleThread = req.body.thread;
-    console.log("aaaaaa" + req.body.quotedid);
-    // let newUpd = new Doc({
+
+    Doc.findOne({'_id': req.body.quotedid}).exec((err, doc) => {
+        if (!err) {
+            var quoted_tweetID = doc.tweet_id;
+            var toggleTweet = req.body.tweet;
+            var toggleThread = req.body.thread;
+            
+            console.log('----- quoted', quoted_tweetID)
+            if(quoted_tweetID != null){
+                let newUpdWithQuote = new Doc({
+                    headline: req.body.headline,
+                    body: req.body.body,
+                    time: req.body.time,
+                    tweet_id: "",
+                    quoted: req.body.quotedid
+                    // tweet_id: tweet.id_str
+                });
+                    newUpdWithQuote.save();
+                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function(error, tweet, response) {
+                            if (error) {
+                                console.log(error)
+                            } else {
+                            console.log(tweet);
+                            console.log(newUpdWithQuote._id);
+                            addTweetLink(newUpdWithQuote._id, tweet.id);
+                            // console.log("REPLY TO : " + tweet.id)
+                            if(toggleThread){
+                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+                                    if (error) {
+                                    console.log(error2)
+                                    } else {
+                                    console.log(secondtweet)
+                                    }
+                                });
+                            }
+                            }
+                        });
+            }
+        }  
+    });
+    
+    res.redirect("/");
+
+
+
+
+
+
+    // var quotedID = req.body.quotedid;
+    // var toggleTweet = req.body.tweet;
+    // var toggleThread = req.body.thread;
+    // var quoted_tweetID = Doc.findOne({'_id': quotedID})['_id'];
+    // console.log("searching...");
+    // console.log("Quoted id--- ", quoted_tweetID);
+
+    // let newUpdWithQuote = new Doc({
     //     headline: req.body.headline,
     //     body: req.body.body,
     //     time: req.body.time,
-    //     // tweet_id: [],
-    //     tweet_id: tweet.id_str,
-    //     quoting: req.body.quotedid
+    //     tweet_id: "",
+    //     quoted: quotedID
+    //     // tweet_id: tweet.id_str
     // });
-    // newUpd.save();
-    // if(toggleTweet){
-    //     client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
-    //         if (error) {
+    // console.log('------- quoted tweet id: ', quoted_tweetID)
+
+    
+
+
+    // newUpdWithQuote.save();
+    // client.post("statuses/update", { status: req.body.headline, quote_tweet_id: quotedID }, function(error, tweet, response) {
+    //     if (error) {
     //         console.log(error)
-    //         } else {
-    //         console.log(tweet);
-    //         console.log(newUpd._id);
-    //         addTweetLink(newUpd._id, tweet.id);
-    //         console.log("REPLY TO : " + tweet.id)
-    //         if(toggleThread){
-    //             client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
-    //                 if (error) {
-    //                 console.log(error2)
-    //                 } else {
-    //                 console.log(secondtweet)
-    //                 }
-    //             });
-    //         }
-    //         }
-    //     });
-    // }
-    res.redirect("/quote");
+    //     } else {
+    //     console.log(tweet);
+    //     console.log(newUpdWithQuote._id);
+    //     addTweetLink(newUpdWithQuote._id, tweet.id);
+    //     // console.log("REPLY TO : " + tweet.id)
+    //     if(toggleThread){
+    //         client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+    //             if (error) {
+    //             console.log(error2)
+    //             } else {
+    //             console.log(secondtweet)
+    //             }
+    //         });
+    //     }
+    //     }
+    // });
+    // res.redirect("/");
 })
 
 // app.post("/review", function(req, res){

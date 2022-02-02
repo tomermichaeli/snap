@@ -80,10 +80,17 @@
     <div class="old-update-container">
     <!-- <div class="new-update-container"> -->
       <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
-      <div class="time-old-div"><span class="time-old"><%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%= update.time.slice(0,4) %></span></div>
+      <div class="time-old-div">
+        <span class="time-old"><%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%= update.time.slice(0,4) %></span>
+      </div>
       <div class="headline-old-div"><span class="headline-old" ><%= update.headline %></span></div>
       <div><span class="body-old" ><%= update.body %></span></div>
-      <div><span class="objectid">ObjectId: <%= update._id %></span></div>
+      <div class="quote-button" style=" text-align: center;">
+        <a class="nav-link quote-text" href="/quote?id=<%= update._id %>">&#10078;</a>
+      </div>
+      <div>
+        <span class="objectid">ObjectId: <%= update._id %></span>
+      </div>
     </div>
     <!-- </div> -->
     <hr style="margin-bottom: 1rem">
