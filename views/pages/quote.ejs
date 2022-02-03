@@ -21,7 +21,7 @@
     });
   */
 
-    function time(){
+  function time(){
       const now = new Date();
       // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -29,10 +29,11 @@
       console.log(now.toISOString().slice(0,16))
       document.getElementById('time').value = now.toISOString().slice(0,16);
       }
-    document.addEventListener('load', () => {
+    window.addEventListener('load', () => {
+      console.log("loaded");
       time()
     });
-    setInterval(time,1000);
+    // setInterval(time,1000);
 </script>
 
 
@@ -76,7 +77,7 @@
                 <span class="threader round"></span>
             </label></div>
             <div class="sendbutton"><button class="sendbutton">Publish</button></div>
-            <div><textarea name="quotedid" id="quotedid"><%= quoted._id %></textarea></div>
+            <div><textarea name="quotedid" id="quotedid" disabled style="font-size: 0.5rem;"><%= quoted._id %></textarea></div>
       </form>
 </div>
 
