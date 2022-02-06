@@ -119,7 +119,7 @@ app.get("/", requiresAuth(), function(req, res)
             res.render('pages/index', {
                 updateList: updates
             })
-        }).sort({"_id": -1}).limit(4);
+        }).sort({"_id": -1}).limit(10);
 
 
 
