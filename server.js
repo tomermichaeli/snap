@@ -10,8 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://thenewsil.herokuapp.com',
+    baseURL: 'http://localhost:3000',
+    // baseURL: 'https://thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
@@ -244,6 +244,16 @@ app.get("/login", function(req, res)
 );
 
 
+app.get("/archive", requiresAuth(), function(req, res)
+    {
+        Doc.find({}, function(err, updates){
+            res.render('pages/archive', {
+                updateList: updates
+            })
+        }).sort({"_id": -1});
+    }
+);
+
         //     console.log("DOCUMENT AGAIN   ", spotlightdoc)
         //     if(spotlightdoc != null){
         //         console.log("not null")
@@ -389,8 +399,11 @@ app.post("/", function(req, res){
 app.post("/quote", function(req, res){
 
     Doc.findOne({'_id': req.body.quotedid}).exec((err, doc) => {
+        console.log(req.body.quotedid);
+        console.log("found document", doc)
         if (!err) {
             var quoted_tweetID = doc.tweet_id;
+            console.log("quoted_tweetid: " , quoted_tweetID);
             var toggleTweet = req.body.tweet;
             var toggleThread = req.body.thread;
             
