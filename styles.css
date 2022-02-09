@@ -391,6 +391,20 @@ a.quote-text{
     line-height: 50%;
     
 }
+.svgediticon{
+    width:1rem;
+    height:1rem;
+    margin-bottom: 0.05rem;
+}
+@media (max-width: 1200px) {
+    .quote-text{
+        font-size: 3rem;
+    }
+    .svgediticon{
+        width:2rem;
+        height:2rem;
+    }
+}
 
 
 
