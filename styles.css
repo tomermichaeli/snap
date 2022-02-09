@@ -55,6 +55,8 @@ body {
     }
 }
 .old-update-container{
+    display: flex;
+    flex-direction: column;
     /* direction: rtl;  */
     text-align: right;
     /* background-color: #DBDADA; */
@@ -323,7 +325,7 @@ div.updatebuttons{
     color: #fff;
     font-size: 1.25rem;
     font-weight:700;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
     padding-left: 3rem;
     padding-right: 3rem;
 }
@@ -369,22 +371,25 @@ a.logout-text{
 
 
 div.quote-button{
-    background-color: dodgerblue;
     /* color: white; */
     font-weight: 500;
-    border-radius: 0.5rem;
     font-size: medium;
-    width: 8%;
+    align-self: flex-start;
+    display: flex;
     line-height: 125%;
     text-align: center;
 }
 div.quote-button :hover{
     background-color: rgb(93, 172, 250);
-    border-radius: 0.5rem;
+    /* border-radius: 0.25rem; */
 }
 a.quote-text{
     color: white;
     padding: 0.25rem 0.5rem;
+    background-color: dodgerblue;
+    /* border-radius: 0.5rem; */
+    line-height: 50%;
+    
 }
 
 

@@ -4857,7 +4857,7 @@ a.badge-dark:focus {
 }
 .jumbotron {
     padding: 1.5rem 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.12rem;
     /* background-color: #e9ecef; */
     /* background-color: #f8f9fa !important; */
     /* border-radius: 0.3rem; */

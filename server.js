@@ -173,11 +173,6 @@ app.get("/review", requiresAuth(), function(req, res)
     {
         console.log('requested: ', req.query.id)
         var spotlightdoc = null;
-        // var spotlightdoc = Doc.findOne({_id: req.query.id})
-        // var spotlightdoc = Doc.findOne({'_id': req.query.id}).lean()
-        // console.log('id: ', spotlightdoc._id)
-        
-
         console.log(req.query.id)
 
         if(req.query.id != null){
@@ -199,13 +194,10 @@ app.get("/review", requiresAuth(), function(req, res)
                             spotid: spotlightdoc._id
                         })
                     }).sort({"_id": -1}).limit(10);
-
-
+                
                 }
-                // else{
-                //     spotlightdoc = Doc.findOne({});
-                // }
-             })
+             
+            })
         }
         else{
             Doc.findOne({}).exec((err, doc) => {
@@ -536,16 +528,29 @@ app.post("/review", function(req, res){
     newBody = req.body.body;
     newTime = req.body.time;
     usedid = req.body.spotlightedid;
+    toggleTweet = req.body.tweet;
+
+
     Doc.findOneAndUpdate({'_id': usedid}, { $set: { headline: newHeadline, body: newBody, time: newTime }}).exec((err, doc) => {
         if (!err) {
             console.log('DOCUMENT22   ', doc)
-            // doc.toObject({ getters: true });
-            // console.log('doc _id:', doc._id);
-            // spotlightdoc = doc;
-            // console.log('DOCUMENT   ', spotlightdoc)
+            if(toggleTweet && newBody != ""){
+
+                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: doc.tweet_id }, function(error, secondtweet, response) {
+                    if (error) {
+                        console.log(error)
+                    }
+                    else {
+                        console.log(secondtweet)
+                    }
+                });
+
+            }
         }
     })
 
+
+    
 
 
     

@@ -52,9 +52,17 @@
           <div><input type="datetime-local" name="time" id="time" value=<%= spotlight.time %>></div>
           <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת"><%= spotlight.headline %></textarea></div>
           <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה"><%= spotlight.body %></textarea></div>
+          
+          <div>
+            <label class="switch">
+              <input type="checkbox" checked name="tweet" id="tweet">
+              <span class="slider round tweet"></span>
+            </label>
+          </div>
+          
           <div class="updatebuttons">
-          <button class="updatebutton">Update</button>
-          <button class="deletebutton" formaction="/delete?id="<%= spotid %>>Delete</button>
+            <button class="updatebutton">Update</button>
+            <button class="deletebutton" formaction="/delete?id="<%= spotid %>>Delete</button>
           </div>
           <div><textarea class="display-objectid" name="spotlightedid" id="spotlightedid" rows="1" readonly><%= spotid %></textarea></div>
         </form>
