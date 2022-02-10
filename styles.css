@@ -75,6 +75,9 @@ body {
     /* color: #000; */
     box-shadow: 0px 5px 6px rgba(0,0,0,0.1);
 }
+.update-list-container::-webkit-scrollbar {
+    width: 0px;
+  }
 @media (max-width: 1200px) {
     .update-list-container{
         width: 100%;
@@ -242,7 +245,7 @@ div.sendbutton{
     color: #fff;
     font-size: 1.25rem;
     font-weight:700;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
 }
 div.sendbutton :hover{
     background-color: #8b1814;
@@ -357,11 +360,11 @@ div.logout-button{
     background-color: #D77370;
     /* color: white; */
     font-weight: 700;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
 }
 div.logout-button :hover{
     background-color: #a03331;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
 }
 a.logout-text{
     color: white;
