@@ -200,7 +200,7 @@ app.get("/review", requiresAuth(), function(req, res)
             })
         }
         else{
-            Doc.findOne({}).exec((err, doc) => {
+            Doc.findOne({}).sort({"_id":-1}).exec((err, doc) => {
                 if (!err) {
                     console.log('DOCUMENT   ', doc)
                     doc.toObject({ getters: true });
