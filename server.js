@@ -119,7 +119,7 @@ app.get("/", requiresAuth(), function(req, res)
             res.render('pages/index', {
                 updateList: updates
             })
-        }).sort({"_id": -1}).limit(10);
+        }).sort({"time": -1}).limit(10);
 
 
 
@@ -156,7 +156,7 @@ app.get("/quote", requiresAuth(), function(req, res)
                             quoted: quotedUpdate,
                             quotedid: quotedUpdate._id
                         })
-                    }).sort({"_id": -1}).limit(10);
+                    }).sort({"time": -1}).limit(10);
 
 
                 }
@@ -193,14 +193,14 @@ app.get("/review", requiresAuth(), function(req, res)
                             spotlight: spotlightdoc,
                             spotid: spotlightdoc._id
                         })
-                    }).sort({"_id": -1}).limit(10);
+                    }).sort({"time": -1}).limit(10);
                 
                 }
              
             })
         }
         else{
-            Doc.findOne({}).sort({"_id":-1}).exec((err, doc) => {
+            Doc.findOne({}).sort({"time":-1}).exec((err, doc) => {
                 if (!err) {
                     console.log('DOCUMENT   ', doc)
                     doc.toObject({ getters: true });
@@ -216,7 +216,7 @@ app.get("/review", requiresAuth(), function(req, res)
                             spotlight: spotlightdoc,
                             spotid: spotlightdoc._id
                         })
-                    }).sort({"_id": -1}).limit(10);
+                    }).sort({"time": -1}).limit(10);
 
 
                 }
@@ -242,7 +242,7 @@ app.get("/archive", requiresAuth(), function(req, res)
             res.render('pages/archive', {
                 updateList: updates
             })
-        }).sort({"_id": -1});
+        }).sort({"time": -1});
     }
 );
 
