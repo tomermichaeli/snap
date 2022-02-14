@@ -100,6 +100,30 @@
       <div>
         <span class="objectid">ObjectId: <%= update._id %></span>
       </div>
+
+
+
+
+      <!--For updates that are quotes-->
+      <% if(update.quote != null){ %>
+        <div class="old-update-container">
+          <% updateList.forEach(update1 => { %>
+            <% if(update1._id == update.quote){ %>
+              <div class="old-update-container" style="background-color: #e7e7e79a; padding-bottom: 0.25rem;"">
+                <span class="time-old"><%= update1.time.slice(11,16) %> @ <%= update1.time.slice(8,10) %>/<%= update1.time.slice(5,7) %>/<%= update1.time.slice(0,4) %></span>
+                <div class="headline-old-div"><span class="headline-old" style="font-size: 1rem;" ><%= update1.headline %></span></div>
+                <div><span class="body-old" style="font-size: smaller;" ><%= update1.body %></span></div>
+              </div>
+            <% } %>
+          <% }) %>
+        </div>
+      <% } %>
+
+
+
+
+
+
     </div>
     <!-- </div> -->
     <hr style="margin-bottom: 1rem">

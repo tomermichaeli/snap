@@ -75,7 +75,7 @@ const DocSchema = {
     time: String,
     // tweet_id: Array
     tweet_id: String,
-    quoting: String
+    quote: String
 }
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
@@ -119,7 +119,7 @@ app.get("/", requiresAuth(), function(req, res)
             res.render('pages/index', {
                 updateList: updates
             })
-        }).sort({"time": -1}).limit(10);
+        }).sort({"time": -1}).limit(30);
 
 
 
@@ -406,7 +406,7 @@ app.post("/quote", function(req, res){
                     body: req.body.body,
                     time: req.body.time,
                     tweet_id: "",
-                    quoted: req.body.quotedid
+                    quote: req.body.quotedid
                     // tweet_id: tweet.id_str
                 });
                     newUpdWithQuote.save();
