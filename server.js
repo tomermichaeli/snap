@@ -10,8 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://thenewsil.herokuapp.com',
+    baseURL: 'http://localhost:3000',
+    // baseURL: 'https://thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
@@ -75,7 +75,10 @@ const DocSchema = {
     time: String,
     // tweet_id: Array
     tweet_id: String,
-    quote: String
+    quote: String,
+    quote_headline: String,
+    quote_body: String,
+    quote_time: String
 }
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
@@ -348,6 +351,26 @@ function addTweetLink(docID, tweetID){
     })
 }
 
+function addQuoteParameters(newUpdateID, quotedUpdateID){
+    Doc.findOne({'_id': quotedUpdateID}).exec((err, doc) => {
+        console.log("Quoted Update = ", doc);
+
+        qHeadline = doc.headline;
+        qBody = doc.body;
+        qTime = doc.time;
+        qTime = doc.time.slice(11,16) + " • " + doc.time.slice(8,10) + "/" + doc.time.slice(5,7) + "/" + doc.time.slice(0,4)
+        console.log(qHeadline, qBody, qTime);
+        Doc.findOneAndUpdate({'_id': newUpdateID}, { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime }}).exec((err, doc) => {
+            if (!err) {
+                console.log('Added quoted update parameters from ', quotedUpdateID, ' to document:  ', doc);
+            }
+            else{
+                console.log(err)
+            }
+        })
+    })
+}
+
 
 
 // create
@@ -406,7 +429,10 @@ app.post("/quote", function(req, res){
                     body: req.body.body,
                     time: req.body.time,
                     tweet_id: "",
-                    quote: req.body.quotedid
+                    quote: req.body.quotedid,
+                    quote_headline: "",
+                    quote_body: "",
+                    quote_time: ""
                     // tweet_id: tweet.id_str
                 });
                     newUpdWithQuote.save();
@@ -418,6 +444,8 @@ app.post("/quote", function(req, res){
                             console.log(tweet);
                             console.log(newUpdWithQuote._id);
                             addTweetLink(newUpdWithQuote._id, tweet.id);
+                            addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
+
                             // console.log("REPLY TO : " + tweet.id)
                             if(toggleThread){
                                 client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
