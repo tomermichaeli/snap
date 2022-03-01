@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+
+
+<script>
+    function time(){
+      const now = new Date();
+      // console.log(now.getTimezoneOffset())
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      console.log(now.toISOString().split(".")[0])
+      console.log(now.toISOString().slice(0,16))
+      document.getElementById('time').value = now.toISOString().slice(0,16);
+      }
+    window.addEventListener('load', () => {
+      console.log("loaded");
+      time()
+    });
+    // setInterval(time,1000);
+</script>
+
+
+
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <!-- <h1>Posting data from HTML to Mongo</h1> -->
+    <!-- <h1 class="pagetitle">Publish Breaking News Updates</h1> -->
+<div class="main-container">
+  <div class="new-update-container">
+      <form method="post" action="/lite">
+          <div><input type="datetime-local" name="time" id="time"></div>
+          <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת" rows="5"></textarea></div>
+          <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה" rows="5"></textarea></div>
+          <div><label class="switch">
+            <input type="checkbox" checked name="tweet" id="tweet">
+            <span class="slider round tweet"></span>
+          </label> &nbsp;
+          <label class="switch">
+            <input type="checkbox" name="thread" id="thread">
+            <span class="threader round"></span>
+          </label></div>
+          <div class="sendbutton"><button class="sendbutton">Publish</button></div>
+      </form>
+</div>
+
+
+
+</div>
+</div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

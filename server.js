@@ -131,6 +131,13 @@ app.get("/", requiresAuth(), function(req, res)
         // });
     }
 );
+
+app.get("/lite", requiresAuth(), function(req, res)
+    {
+        res.render('pages/lite')
+    }
+);
+
 app.get("/quote", requiresAuth(), function(req, res)
     {
         console.log('requested: ', req.query.id)
@@ -410,6 +417,43 @@ app.post("/", function(req, res){
     }
     res.redirect("/");
 })
+
+app.post("/lite", function(req, res){
+    console.log(req.body.tweet);
+    var toggleTweet = req.body.tweet;
+    var toggleThread = req.body.thread;
+    let newUpd = new Doc({
+        headline: req.body.headline,
+        body: req.body.body,
+        time: req.body.time,
+        tweet_id: "",
+    });
+    newUpd.save();
+    if(toggleTweet){
+        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+            if (error) {
+            console.log(error)
+            } else {
+            console.log(tweet);
+            console.log(newUpd._id);
+            addTweetLink(newUpd._id, tweet.id_str);
+            console.log("REPLY TO : " + tweet.id)
+            if(toggleThread){
+                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+                    if (error) {
+                    console.log(error2)
+                    } else {
+                    console.log(secondtweet)
+                    }
+                });
+            }
+            }
+        });
+    }
+    res.redirect("/lite");
+})
+
+
 
 app.post("/quote", function(req, res){
 
