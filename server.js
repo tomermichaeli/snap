@@ -454,6 +454,42 @@ app.post("/lite", function(req, res){
 })
 
 
+app.post("/abc", function(req, res){
+    var toggleTweet = req.body.tweet;
+    var toggleThread = req.body.thread;
+    let newUpd = new Doc({
+        headline: req.body.headline,
+        body: req.body.body,
+        time: req.body.time,
+        tweet_id: "",
+    });
+    console.log(newUpd);
+    newUpd.save();
+    if(toggleTweet){
+        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+            if (error) {
+            console.log(error)
+            }
+            else {
+                addTweetLink(newUpd._id, tweet.id_str);
+                if(toggleThread){
+                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+                        if (error) {
+                        console.log(error2)
+                        } else {
+                        console.log(secondtweet)
+                        }
+                    });
+                }
+            }
+        });
+    }
+    // console.log(req.body.headline);
+    // console.log(req.body.body);
+    // console.log(req.body.time);
+    res.redirect("https://newsil.vercel.app/publish");
+});
+
 
 app.post("/quote", function(req, res){
 
