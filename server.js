@@ -252,7 +252,7 @@ app.get("/archive", requiresAuth(), function(req, res)
             res.render('pages/archive', {
                 updateList: updates
             })
-        }).sort({"time": -1});
+        }).sort({"_id": -1});
     }
 );
 
