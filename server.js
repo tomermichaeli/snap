@@ -10,8 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://thenewsil.herokuapp.com',
+    baseURL: 'http://localhost:3000',
+    // baseURL: 'https://thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
@@ -232,6 +232,62 @@ app.get("/review", requiresAuth(), function(req, res)
                 }
             }
         )}
+//
+app.get("/review1", requiresAuth(), function(req, res)
+    {
+        console.log('requested: ', req.query.id)
+        var spotlightdoc = null;
+        console.log(req.query.id)
+
+        if(req.query.id != null){
+            // find document with id:
+            Doc.findOne({'_id': req.query.id}).exec((err, doc) => {
+                if (!err) {
+                    console.log('DOCUMENT   ', doc)
+                    doc.toObject({ getters: true });
+                    console.log('doc _id:', doc._id);
+                    spotlightdoc = doc;
+                    console.log('DOCUMENT   ', spotlightdoc)
+
+
+                    Doc.find({}, function(err, updates){
+                        res.render('pages/review', {
+                            updateList: updates,
+                            // spotlight: updates[{"_id": req.query.id}]
+                            spotlight: spotlightdoc,
+                            spotid: spotlightdoc._id
+                        })
+                    }).sort({"time": -1}).limit(10);
+                
+                }
+             
+            })
+        }
+        else{
+            Doc.findOne({}).sort({"time":-1}).exec((err, doc) => {
+                if (!err) {
+                    console.log('DOCUMENT   ', doc)
+                    doc.toObject({ getters: true });
+                    console.log('doc _id:', doc._id);
+                    spotlightdoc = doc;
+                    console.log('DOCUMENT   ', spotlightdoc)
+
+
+                    Doc.find({}, function(err, updates){
+                        res.render('pages/review1', {
+                            updateList: updates,
+                            // spotlight: updates[{"_id": req.query.id}]
+                            spotlight: spotlightdoc,
+                            spotid: spotlightdoc._id
+                        })
+                    }).sort({"time": -1}).limit(10);
+
+
+                }
+            }
+        )}
+    })
+//
 
 app.get("/create", requiresAuth(), function(req, res)
     {
@@ -304,7 +360,7 @@ app.get("/archive", requiresAuth(), function(req, res)
 
 
 app.get("/styles.css", function(req, res){res.sendFile(__dirname + "/styles.css")})
-app.get("/onlinestyle.css", function(req, res){res.sendFile(__dirname + "/onlinestyle.css")})
+app.get("/otherstyles.css", function(req, res){res.sendFile(__dirname + "/otherstyles.css")})
 
 app.get("/updates", function(req, res)
     {
