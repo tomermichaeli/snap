@@ -1,4 +1,4 @@
-const express =  require("express");
+const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
@@ -64,9 +64,9 @@ const uri = "mongodb+srv://test:test@cluster0.anx9a.mongodb.net/thenewsil?retryW
 
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(uri, {useNewUrlParser: true}, {useUnifiedTopology: true});
+mongoose.connect(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 const DocSchema = {
     headline: String,
@@ -97,151 +97,146 @@ const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
 
 
 
-app.get("/", requiresAuth(), function(req, res)
-    {
-        // if(req.oidc.isAuthenticated()){
-        //     console.log("in");
-        //     Doc.find({}, function(err, updates){
-        //         res.render('pages/index', {
-        //             updateList: updates
-        //         })
-        //     }).sort({"_id": -1}).limit(4);
-        // }
-        // else{
-        //     console.log('out');
-        //     res.redirect('/login')
-        // }
+app.get("/", requiresAuth(), function (req, res) {
+    // if(req.oidc.isAuthenticated()){
+    //     console.log("in");
+    //     Doc.find({}, function(err, updates){
+    //         res.render('pages/index', {
+    //             updateList: updates
+    //         })
+    //     }).sort({"_id": -1}).limit(4);
+    // }
+    // else{
+    //     console.log('out');
+    //     res.redirect('/login')
+    // }
 
 
-        // res.sendFile(__dirname + "/index.html");
-        // res.send("hello!")
-
-
-
-        Doc.find({}, function(err, updates){
-            res.render('pages/index', {
-                updateList: updates
-            })
-        }).sort({"time": -1}).limit(30);
+    // res.sendFile(__dirname + "/index.html");
+    // res.send("hello!")
 
 
 
-        // res.render('pages/index', {
-        //     data: datasend
-        // });
-    }
+    Doc.find({}, function (err, updates) {
+        res.render('pages/index', {
+            updateList: updates
+        })
+    }).sort({ "time": -1 }).limit(30);
+
+
+
+    // res.render('pages/index', {
+    //     data: datasend
+    // });
+}
 );
 
-app.get("/lite", requiresAuth(), function(req, res)
-    {
-        res.render('pages/lite')
-    }
+app.get("/lite", requiresAuth(), function (req, res) {
+    res.render('pages/lite')
+}
 );
 
-app.get("/quote", requiresAuth(), function(req, res)
-    {
-        console.log('requested: ', req.query.id)
-        var spotlightdoc = null;
-        // var spotlightdoc = Doc.findOne({_id: req.query.id})
-        // var spotlightdoc = Doc.findOne({'_id': req.query.id}).lean()
-        // console.log('id: ', spotlightdoc._id)
-        
-
-        console.log(req.query.id)
-
-        if(req.query.id != null){
-            // find document with id:
-            Doc.findOne({'_id': req.query.id}).exec((err, quotedUpdate) => {
-                if (!err) {
-                    console.log('DOCUMENT   ', quotedUpdate)
-                    quotedUpdate.toObject({ getters: true });
-                    console.log('doc _id:', quotedUpdate._id);
-                    quotedTweetID = quotedUpdate.tweet_id;
-                    console.log(quotedTweetID);
+app.get("/quote", requiresAuth(), function (req, res) {
+    console.log('requested: ', req.query.id)
+    var spotlightdoc = null;
+    // var spotlightdoc = Doc.findOne({_id: req.query.id})
+    // var spotlightdoc = Doc.findOne({'_id': req.query.id}).lean()
+    // console.log('id: ', spotlightdoc._id)
 
 
-                    Doc.find({}, function(err, updates){
-                        res.render('pages/quote', {
-                            updateList: updates,
-                            quoted: quotedUpdate,
-                            quotedid: quotedUpdate._id
-                        })
-                    }).sort({"time": -1}).limit(10);
+    console.log(req.query.id)
+
+    if (req.query.id != null) {
+        // find document with id:
+        Doc.findOne({ '_id': req.query.id }).exec((err, quotedUpdate) => {
+            if (!err) {
+                console.log('DOCUMENT   ', quotedUpdate)
+                quotedUpdate.toObject({ getters: true });
+                console.log('doc _id:', quotedUpdate._id);
+                quotedTweetID = quotedUpdate.tweet_id;
+                console.log(quotedTweetID);
 
 
-                }
-             })
-        }
-    }
-);
-app.get("/about", function(req, res)
-    {
-        res.render('pages/about');
-    }
-);
-app.get("/review", requiresAuth(), function(req, res)
-    {
-        console.log('requested: ', req.query.id)
-        var spotlightdoc = null;
-        console.log(req.query.id)
-
-        if(req.query.id != null){
-            // find document with id:
-            Doc.findOne({'_id': req.query.id}).exec((err, doc) => {
-                if (!err) {
-                    console.log('DOCUMENT   ', doc)
-                    doc.toObject({ getters: true });
-                    console.log('doc _id:', doc._id);
-                    spotlightdoc = doc;
-                    console.log('DOCUMENT   ', spotlightdoc)
+                Doc.find({}, function (err, updates) {
+                    res.render('pages/quote', {
+                        updateList: updates,
+                        quoted: quotedUpdate,
+                        quotedid: quotedUpdate._id
+                    })
+                }).sort({ "time": -1 }).limit(10);
 
 
-                    Doc.find({}, function(err, updates){
-                        res.render('pages/review', {
-                            updateList: updates,
-                            // spotlight: updates[{"_id": req.query.id}]
-                            spotlight: spotlightdoc,
-                            spotid: spotlightdoc._id
-                        })
-                    }).sort({"time": -1}).limit(10);
-                
-                }
-             
-            })
-        }
-        else{
-            Doc.findOne({}).sort({"time":-1}).exec((err, doc) => {
-                if (!err) {
-                    console.log('DOCUMENT   ', doc)
-                    doc.toObject({ getters: true });
-                    console.log('doc _id:', doc._id);
-                    spotlightdoc = doc;
-                    console.log('DOCUMENT   ', spotlightdoc)
-
-
-                    Doc.find({}, function(err, updates){
-                        res.render('pages/review', {
-                            updateList: updates,
-                            // spotlight: updates[{"_id": req.query.id}]
-                            spotlight: spotlightdoc,
-                            spotid: spotlightdoc._id
-                        })
-                    }).sort({"time": -1}).limit(10);
-
-
-                }
             }
-        )}
-//
-app.get("/review1", requiresAuth(), function(req, res)
-    {
+        })
+    }
+}
+);
+app.get("/about", function (req, res) {
+    res.render('pages/about');
+}
+);
+app.get("/review", requiresAuth(), function (req, res) {
+    console.log('requested: ', req.query.id)
+    var spotlightdoc = null;
+    console.log(req.query.id)
+
+    if (req.query.id != null) {
+        // find document with id:
+        Doc.findOne({ '_id': req.query.id }).exec((err, doc) => {
+            if (!err) {
+                console.log('DOCUMENT   ', doc)
+                doc.toObject({ getters: true });
+                console.log('doc _id:', doc._id);
+                spotlightdoc = doc;
+                console.log('DOCUMENT   ', spotlightdoc)
+
+
+                Doc.find({}, function (err, updates) {
+                    res.render('pages/review', {
+                        updateList: updates,
+                        // spotlight: updates[{"_id": req.query.id}]
+                        spotlight: spotlightdoc,
+                        spotid: spotlightdoc._id
+                    })
+                }).sort({ "time": -1 }).limit(10);
+
+            }
+
+        })
+    }
+    else {
+        Doc.findOne({}).sort({ "time": -1 }).exec((err, doc) => {
+            if (!err) {
+                console.log('DOCUMENT   ', doc)
+                doc.toObject({ getters: true });
+                console.log('doc _id:', doc._id);
+                spotlightdoc = doc;
+                console.log('DOCUMENT   ', spotlightdoc)
+
+
+                Doc.find({}, function (err, updates) {
+                    res.render('pages/review', {
+                        updateList: updates,
+                        // spotlight: updates[{"_id": req.query.id}]
+                        spotlight: spotlightdoc,
+                        spotid: spotlightdoc._id
+                    })
+                }).sort({ "time": -1 }).limit(10);
+
+
+            }
+        }
+        )
+    }
+    //
+    app.get("/review1", requiresAuth(), function (req, res) {
         console.log('requested: ', req.query.id)
         var spotlightdoc = null;
         console.log(req.query.id)
 
-        if(req.query.id != null){
+        if (req.query.id != null) {
             // find document with id:
-            Doc.findOne({'_id': req.query.id}).exec((err, doc) => {
+            Doc.findOne({ '_id': req.query.id }).exec((err, doc) => {
                 if (!err) {
                     console.log('DOCUMENT   ', doc)
                     doc.toObject({ getters: true });
@@ -250,21 +245,21 @@ app.get("/review1", requiresAuth(), function(req, res)
                     console.log('DOCUMENT   ', spotlightdoc)
 
 
-                    Doc.find({}, function(err, updates){
+                    Doc.find({}, function (err, updates) {
                         res.render('pages/review', {
                             updateList: updates,
                             // spotlight: updates[{"_id": req.query.id}]
                             spotlight: spotlightdoc,
                             spotid: spotlightdoc._id
                         })
-                    }).sort({"time": -1}).limit(10);
-                
+                    }).sort({ "time": -1 }).limit(10);
+
                 }
-             
+
             })
         }
-        else{
-            Doc.findOne({}).sort({"time":-1}).exec((err, doc) => {
+        else {
+            Doc.findOne({}).sort({ "time": -1 }).exec((err, doc) => {
                 if (!err) {
                     console.log('DOCUMENT   ', doc)
                     doc.toObject({ getters: true });
@@ -273,106 +268,103 @@ app.get("/review1", requiresAuth(), function(req, res)
                     console.log('DOCUMENT   ', spotlightdoc)
 
 
-                    Doc.find({}, function(err, updates){
+                    Doc.find({}, function (err, updates) {
                         res.render('pages/review1', {
                             updateList: updates,
                             // spotlight: updates[{"_id": req.query.id}]
                             spotlight: spotlightdoc,
                             spotid: spotlightdoc._id
                         })
-                    }).sort({"time": -1}).limit(10);
+                    }).sort({ "time": -1 }).limit(10);
 
 
                 }
             }
-        )}
+            )
+        }
     })
-//
+    //
 
-app.get("/create", requiresAuth(), function(req, res)
-    {
+    app.get("/create", requiresAuth(), function (req, res) {
         res.render('pages/create');
     }
-);
+    );
 
-app.get("/login", function(req, res)
-    {
+    app.get("/login", function (req, res) {
         res.render('pages/login');
     }
-);
+    );
 
 
-app.get("/archive", requiresAuth(), function(req, res)
-    {
-        Doc.find({}, function(err, updates){
+    app.get("/archive", requiresAuth(), function (req, res) {
+        Doc.find({}, function (err, updates) {
             res.render('pages/archive', {
                 updateList: updates
             })
-        }).sort({"_id": -1});
+        }).sort({ "_id": -1 });
     }
+    );
+
+    //     console.log("DOCUMENT AGAIN   ", spotlightdoc)
+    //     if(spotlightdoc != null){
+    //         console.log("not null")
+    //         // return page with document
+    //         Doc.find({}, function(err, updates){
+    //             res.render('pages/review', {
+    //                 updateList: updates,
+    //                 // spotlight: updates[{"_id": req.query.id}]
+    //                 spotlight: spotlightdoc,
+    //                 spotid: spotlightdoc._id
+    //             })
+    //         }).sort({"_id": -1}).limit(10);
+    //     }
+    //     else{
+    //         Doc.find({}, function(err, updates){
+    //             res.render('pages/review', {
+    //                 updateList: updates,
+    //                 spotlight: updates[0],
+    //                 spotid: updates[0]._id
+    //             })
+    //         }).sort({"_id": -1}).limit(10);
+    //     } 
+
+
+
+
+
+
+
+
+    // }
+
+    // else{
+    //     Doc.find({}, function(err, updates){
+    //         res.render('pages/review', {
+    //             updateList: updates,
+    //             spotlight: updates[0],
+    //             spotid: updates[0]._id
+    //         })
+    //     }).sort({"_id": -1}).limit(10);
+    // } 
+}
 );
 
-        //     console.log("DOCUMENT AGAIN   ", spotlightdoc)
-        //     if(spotlightdoc != null){
-        //         console.log("not null")
-        //         // return page with document
-        //         Doc.find({}, function(err, updates){
-        //             res.render('pages/review', {
-        //                 updateList: updates,
-        //                 // spotlight: updates[{"_id": req.query.id}]
-        //                 spotlight: spotlightdoc,
-        //                 spotid: spotlightdoc._id
-        //             })
-        //         }).sort({"_id": -1}).limit(10);
-        //     }
-        //     else{
-        //         Doc.find({}, function(err, updates){
-        //             res.render('pages/review', {
-        //                 updateList: updates,
-        //                 spotlight: updates[0],
-        //                 spotid: updates[0]._id
-        //             })
-        //         }).sort({"_id": -1}).limit(10);
-        //     } 
 
 
 
+app.get("/styles.css", function (req, res) { res.sendFile(__dirname + "/styles.css") })
+app.get("/otherstyles.css", function (req, res) { res.sendFile(__dirname + "/otherstyles.css") })
 
-
-
-
-
-        // }
-
-        // else{
-        //     Doc.find({}, function(err, updates){
-        //         res.render('pages/review', {
-        //             updateList: updates,
-        //             spotlight: updates[0],
-        //             spotid: updates[0]._id
-        //         })
-        //     }).sort({"_id": -1}).limit(10);
-        // } 
-    }
-);
-
-
-
-
-app.get("/styles.css", function(req, res){res.sendFile(__dirname + "/styles.css")})
-app.get("/otherstyles.css", function(req, res){res.sendFile(__dirname + "/otherstyles.css")})
-
-app.get("/updates", function(req, res)
-    {
-        var name = 'hello';
-        res.render(__dirname + "/index.html", {name:name});
-        // res.send("hello!")
-    }
+app.get("/updates", function (req, res) {
+    var name = 'hello';
+    res.render(__dirname + "/index.html", { name: name });
+    // res.send("hello!")
+}
 );
 
 
 // app.get("/updates", function(req, res, next) {
-      
+
 //     userModel.find((err, docs) => {
 //         if (!err) {
 //             res.render("list", {
@@ -398,36 +390,36 @@ app.get("/updates", function(req, res)
 // app.body.old.appendChild(table);
 
 
-function addTweetLink(docID, tweetID){
+function addTweetLink(docID, tweetID) {
     // Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
-    Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: tweetID }}).exec((err, doc) => {
-            if (!err) {
+    Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
+        if (!err) {
             console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
             // doc.toObject({ getters: true });
             // console.log('doc _id:', doc._id);
             // spotlightdoc = doc;
             // console.log('DOCUMENT   ', spotlightdoc)
         }
-        else{
+        else {
             console.log(err)
         }
     })
 }
 
-function addQuoteParameters(newUpdateID, quotedUpdateID){
-    Doc.findOne({'_id': quotedUpdateID}).exec((err, doc) => {
+function addQuoteParameters(newUpdateID, quotedUpdateID) {
+    Doc.findOne({ '_id': quotedUpdateID }).exec((err, doc) => {
         console.log("Quoted Update = ", doc);
 
         qHeadline = doc.headline;
         qBody = doc.body;
         qTime = doc.time;
-        qTime = doc.time.slice(11,16) + " • " + doc.time.slice(8,10) + "/" + doc.time.slice(5,7) + "/" + doc.time.slice(0,4)
+        qTime = doc.time.slice(11, 16) + " • " + doc.time.slice(8, 10) + "/" + doc.time.slice(5, 7) + "/" + doc.time.slice(0, 4)
         console.log(qHeadline, qBody, qTime);
-        Doc.findOneAndUpdate({'_id': newUpdateID}, { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime }}).exec((err, doc) => {
+        Doc.findOneAndUpdate({ '_id': newUpdateID }, { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime } }).exec((err, doc) => {
             if (!err) {
                 console.log('Added quoted update parameters from ', quotedUpdateID, ' to document:  ', doc);
             }
-            else{
+            else {
                 console.log(err)
             }
         })
@@ -437,7 +429,7 @@ function addQuoteParameters(newUpdateID, quotedUpdateID){
 
 
 // create
-app.post("/", function(req, res){
+app.post("/", function (req, res) {
     console.log(req.body.tweet);
     var toggleTweet = req.body.tweet;
     var toggleThread = req.body.thread;
@@ -449,32 +441,32 @@ app.post("/", function(req, res){
         // tweet_id: tweet.id_str
     });
     newUpd.save();
-    if(toggleTweet){
-        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+    if (toggleTweet) {
+        client.post("statuses/update", { status: req.body.headline }, function (error, tweet, response) {
             if (error) {
-            console.log(error)
+                console.log(error)
             } else {
-            console.log(tweet);
-            console.log(newUpd._id);
-            // addTweetLink(newUpd._id, tweet.id);
-            addTweetLink(newUpd._id, tweet.id_str);
-            console.log("REPLY TO : " + tweet.id)
-            if(toggleThread){
-                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
-                    if (error) {
-                    console.log(error2)
-                    } else {
-                    console.log(secondtweet)
-                    }
-                });
-            }
+                console.log(tweet);
+                console.log(newUpd._id);
+                // addTweetLink(newUpd._id, tweet.id);
+                addTweetLink(newUpd._id, tweet.id_str);
+                console.log("REPLY TO : " + tweet.id)
+                if (toggleThread) {
+                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
+                        if (error) {
+                            console.log(error2)
+                        } else {
+                            console.log(secondtweet)
+                        }
+                    });
+                }
             }
         });
     }
     res.redirect("/");
 })
 
-app.post("/lite", function(req, res){
+app.post("/lite", function (req, res) {
     console.log(req.body.tweet);
     var toggleTweet = req.body.tweet;
     var toggleThread = req.body.thread;
@@ -485,24 +477,24 @@ app.post("/lite", function(req, res){
         tweet_id: "",
     });
     newUpd.save();
-    if(toggleTweet){
-        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+    if (toggleTweet) {
+        client.post("statuses/update", { status: req.body.headline }, function (error, tweet, response) {
             if (error) {
-            console.log(error)
+                console.log(error)
             } else {
-            console.log(tweet);
-            console.log(newUpd._id);
-            addTweetLink(newUpd._id, tweet.id_str);
-            console.log("REPLY TO : " + tweet.id)
-            if(toggleThread){
-                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
-                    if (error) {
-                    console.log(error2)
-                    } else {
-                    console.log(secondtweet)
-                    }
-                });
-            }
+                console.log(tweet);
+                console.log(newUpd._id);
+                addTweetLink(newUpd._id, tweet.id_str);
+                console.log("REPLY TO : " + tweet.id)
+                if (toggleThread) {
+                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
+                        if (error) {
+                            console.log(error2)
+                        } else {
+                            console.log(secondtweet)
+                        }
+                    });
+                }
             }
         });
     }
@@ -510,7 +502,7 @@ app.post("/lite", function(req, res){
 })
 
 
-app.post("/abc", function(req, res){
+app.post("/abc", function (req, res) {
     var toggleTweet = req.body.tweet;
     var toggleThread = req.body.thread;
     let newUpd = new Doc({
@@ -521,19 +513,19 @@ app.post("/abc", function(req, res){
     });
     console.log(newUpd);
     newUpd.save();
-    if(toggleTweet){
-        client.post("statuses/update", { status: req.body.headline }, function(error, tweet, response) {
+    if (toggleTweet) {
+        client.post("statuses/update", { status: req.body.headline }, function (error, tweet, response) {
             if (error) {
-            console.log(error)
+                console.log(error)
             }
             else {
                 addTweetLink(newUpd._id, tweet.id_str);
-                if(toggleThread){
-                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
+                if (toggleThread) {
+                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
                         if (error) {
-                        console.log(error2)
+                            console.log(error2)
                         } else {
-                        console.log(secondtweet)
+                            console.log(secondtweet)
                         }
                     });
                 }
@@ -547,19 +539,19 @@ app.post("/abc", function(req, res){
 });
 
 
-app.post("/quote", function(req, res){
+app.post("/quote", function (req, res) {
 
-    Doc.findOne({'_id': req.body.quotedid}).exec((err, doc) => {
+    Doc.findOne({ '_id': req.body.quotedid }).exec((err, doc) => {
         console.log(req.body.quotedid);
         console.log("found document", doc)
         if (!err) {
             var quoted_tweetID = doc.tweet_id;
-            console.log("quoted_tweetid: " , quoted_tweetID);
+            console.log("quoted_tweetid: ", quoted_tweetID);
             var toggleTweet = req.body.tweet;
             var toggleThread = req.body.thread;
-            
+
             console.log('----- quoted', quoted_tweetID)
-            if(quoted_tweetID != null){
+            if (quoted_tweetID != null) {
                 let newUpdWithQuote = new Doc({
                     headline: req.body.headline,
                     body: req.body.body,
@@ -571,33 +563,33 @@ app.post("/quote", function(req, res){
                     quote_time: ""
                     // tweet_id: tweet.id_str
                 });
-                    newUpdWithQuote.save();
-                    console.log("saved");
-                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function(error, tweet, response) {
-                            if (error) {
-                                console.log(error)
-                            } else {
-                            console.log(tweet);
-                            console.log(newUpdWithQuote._id);
-                            addTweetLink(newUpdWithQuote._id, tweet.id);
-                            addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
+                newUpdWithQuote.save();
+                console.log("saved");
+                client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function (error, tweet, response) {
+                    if (error) {
+                        console.log(error)
+                    } else {
+                        console.log(tweet);
+                        console.log(newUpdWithQuote._id);
+                        addTweetLink(newUpdWithQuote._id, tweet.id);
+                        addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
 
-                            // console.log("REPLY TO : " + tweet.id)
-                            if(toggleThread){
-                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function(error2, secondtweet, response) {
-                                    if (error) {
+                        // console.log("REPLY TO : " + tweet.id)
+                        if (toggleThread) {
+                            client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
+                                if (error) {
                                     console.log(error2)
-                                    } else {
+                                } else {
                                     console.log(secondtweet)
-                                    }
-                                });
-                            }
-                            }
-                        });
+                                }
+                            });
+                        }
+                    }
+                });
             }
-        }  
+        }
     });
-    
+
     res.redirect("/");
 
 
@@ -622,7 +614,7 @@ app.post("/quote", function(req, res){
     // });
     // console.log('------- quoted tweet id: ', quoted_tweetID)
 
-    
+
 
 
     // newUpdWithQuote.save();
@@ -687,7 +679,7 @@ app.post("/quote", function(req, res){
 
 
 //update - attempt 2
-app.post("/review", function(req, res){
+app.post("/review", function (req, res) {
     newHeadline = req.body.headline;
     newBody = req.body.body;
     newTime = req.body.time;
@@ -695,12 +687,12 @@ app.post("/review", function(req, res){
     toggleTweet = req.body.tweet;
 
 
-    Doc.findOneAndUpdate({'_id': usedid}, { $set: { headline: newHeadline, body: newBody, time: newTime }}).exec((err, doc) => {
+    Doc.findOneAndUpdate({ '_id': usedid }, { $set: { headline: newHeadline, body: newBody, time: newTime } }).exec((err, doc) => {
         if (!err) {
             console.log('DOCUMENT22   ', doc)
-            if(toggleTweet && newBody != ""){
+            if (toggleTweet && newBody != "") {
 
-                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: doc.tweet_id }, function(error, secondtweet, response) {
+                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: doc.tweet_id }, function (error, secondtweet, response) {
                     if (error) {
                         console.log(error)
                     }
@@ -714,10 +706,10 @@ app.post("/review", function(req, res){
     })
 
 
-    
 
 
-    
+
+
     res.redirect("/review?id=" + usedid);
 
     // res.redirect("/review");
@@ -725,14 +717,14 @@ app.post("/review", function(req, res){
 
 
 // delete
-app.post("/delete", function(req, res){
+app.post("/delete", function (req, res) {
     usedid = req.body.spotlightedid;
     console.log('delete this:   ', usedid)
-    Doc.deleteOne({'_id': usedid}, function (err) {
+    Doc.deleteOne({ '_id': usedid }, function (err) {
         if (err) {
             console.log(err);
         }
-        else{
+        else {
             console.log('Deleted.')
         }
     });
@@ -777,19 +769,19 @@ app.post("/delete", function(req, res){
 
 
 //create article 2
-app.post("/create", function(req, res){
+app.post("/create", function (req, res) {
     // console.log('delete this:   ', usedid);
     console.log('creating file...')
 
 
     var fs = require('fs');
 
-    fs.writeFile('articles/new.txt', '--- \n topic: ' + String(req.body.topic), '\n date: ' + String(req.body.date) + '\n hero_image: ' + String(req.body.image) + '\n and more', function(err) {
-        if(err) {
+    fs.writeFile('articles/new.txt', '--- \n topic: ' + String(req.body.topic), '\n date: ' + String(req.body.date) + '\n hero_image: ' + String(req.body.image) + '\n and more', function (err) {
+        if (err) {
             return console.log(err);
         }
         console.log("The file was saved!");
-    }); 
+    });
 
     res.redirect("/");
 })
@@ -809,7 +801,7 @@ app.post("/create", function(req, res){
 var port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-    console.log("Server is running on port "+ port);
+    console.log("Server is running on port " + port);
     // MongoClient.connect(uri, {useNewUrlParser: true}, {useUnifiedTopology: true}, (error, result) => {
     //     if (error) throw error;
     //     database = result.db("thenewsil")
