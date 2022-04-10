@@ -10,8 +10,8 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://thenewsil.herokuapp.com',
+    baseURL: 'http://localhost:3000',
+    // baseURL: 'https://thenewsil.herokuapp.com',
     clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
     issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
 };
@@ -75,6 +75,7 @@ const DocSchema = {
     time: String,
     // tweet_id: Array
     tweet_id: String,
+    second_tweet_id: String,
     quote: String,
     quote_headline: String,
     quote_body: String,
@@ -150,11 +151,16 @@ app.get("/quote", requiresAuth(), function (req, res) {
         // find document with id:
         Doc.findOne({ '_id': req.query.id }).exec((err, quotedUpdate) => {
             if (!err) {
-                console.log('DOCUMENT   ', quotedUpdate)
+                // console.log('DOCUMENT   ', quotedUpdate)
                 quotedUpdate.toObject({ getters: true });
-                console.log('doc _id:', quotedUpdate._id);
+                // console.log('doc _id:', quotedUpdate._id);
                 quotedTweetID = quotedUpdate.tweet_id;
+                quotedSecondTweetID = quotedUpdate.second_tweet_id;
+                if (quotedSecondTweetID == null) {
+                    quotedSecondTweetID = quotedTweetID;
+                }
                 console.log(quotedTweetID);
+                console.log(quotedSecondTweetID);
 
 
                 Doc.find({}, function (err, updates) {
@@ -390,20 +396,37 @@ app.get("/updates", function (req, res) {
 // app.body.old.appendChild(table);
 
 
-function addTweetLink(docID, tweetID) {
+function addTweetLink(i, docID, tweetID) { //if i=0: main tweet, else: second tweet
     // Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
-    Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
-        if (!err) {
-            console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
-            // doc.toObject({ getters: true });
-            // console.log('doc _id:', doc._id);
-            // spotlightdoc = doc;
-            // console.log('DOCUMENT   ', spotlightdoc)
-        }
-        else {
-            console.log(err)
-        }
-    })
+    if (i == 0) {
+        Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
+            if (!err) {
+                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
+                // doc.toObject({ getters: true });
+                // console.log('doc _id:', doc._id);
+                // spotlightdoc = doc;
+                // console.log('DOCUMENT   ', spotlightdoc)
+            }
+            else {
+                console.log(err)
+            }
+        })
+    }
+    else {
+        Doc.findOneAndUpdate({ '_id': docID }, { $set: { second_tweet_id: tweetID } }).exec((err, doc) => {
+            if (!err) {
+                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
+                // doc.toObject({ getters: true });
+                // console.log('doc _id:', doc._id);
+                // spotlightdoc = doc;
+                // console.log('DOCUMENT   ', spotlightdoc)
+            }
+            else {
+                console.log(err)
+            }
+        })
+    }
+
 }
 
 function addQuoteParameters(newUpdateID, quotedUpdateID) {
@@ -438,6 +461,7 @@ app.post("/", function (req, res) {
         body: req.body.body,
         time: req.body.time,
         tweet_id: "",
+        second_tweet_id: ""
         // tweet_id: tweet.id_str
     });
     newUpd.save();
@@ -449,7 +473,7 @@ app.post("/", function (req, res) {
                 console.log(tweet);
                 console.log(newUpd._id);
                 // addTweetLink(newUpd._id, tweet.id);
-                addTweetLink(newUpd._id, tweet.id_str);
+                addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
                     client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
@@ -457,8 +481,10 @@ app.post("/", function (req, res) {
                             console.log(error2)
                         } else {
                             console.log(secondtweet)
+                            addTweetLink(1, newUpd._id, secondtweet.id_str);
                         }
                     });
+
                 }
             }
         });
@@ -484,7 +510,7 @@ app.post("/lite", function (req, res) {
             } else {
                 console.log(tweet);
                 console.log(newUpd._id);
-                addTweetLink(newUpd._id, tweet.id_str);
+                addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
                     client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
@@ -492,6 +518,7 @@ app.post("/lite", function (req, res) {
                             console.log(error2)
                         } else {
                             console.log(secondtweet)
+                            addTweetLink(1, newUpd._id, secondtweet.id_str);
                         }
                     });
                 }
@@ -539,53 +566,85 @@ app.post("/abc", function (req, res) {
 });
 
 
+
+
 app.post("/quote", function (req, res) {
 
     Doc.findOne({ '_id': req.body.quotedid }).exec((err, doc) => {
-        console.log(req.body.quotedid);
-        console.log("found document", doc)
+        // console.log(req.body.quotedid);
+        // console.log("found document", doc)
         if (!err) {
             var quoted_tweetID = doc.tweet_id;
-            console.log("quoted_tweetid: ", quoted_tweetID);
+            var quoted_secondTweetID = doc.second_tweet_id;
+            // console.log("quoted_tweetid: ", quoted_tweetID);
             var toggleTweet = req.body.tweet;
             var toggleThread = req.body.thread;
+            var toggleQuoteSecond = req.body.quotesecond;
 
-            console.log('----- quoted', quoted_tweetID)
-            if (quoted_tweetID != null) {
-                let newUpdWithQuote = new Doc({
-                    headline: req.body.headline,
-                    body: req.body.body,
-                    time: req.body.time,
-                    tweet_id: "",
-                    quote: req.body.quotedid,
-                    quote_headline: "",
-                    quote_body: "",
-                    quote_time: ""
-                    // tweet_id: tweet.id_str
-                });
-                newUpdWithQuote.save();
-                console.log("saved");
-                client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function (error, tweet, response) {
-                    if (error) {
-                        console.log(error)
-                    } else {
-                        console.log(tweet);
-                        console.log(newUpdWithQuote._id);
-                        addTweetLink(newUpdWithQuote._id, tweet.id);
-                        addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
+            // console.log('----- quoted', quoted_tweetID)
 
-                        // console.log("REPLY TO : " + tweet.id)
-                        if (toggleThread) {
-                            client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                                if (error) {
-                                    console.log(error2)
-                                } else {
-                                    console.log(secondtweet)
-                                }
-                            });
+            //1: save to database
+            let newUpdWithQuote = new Doc({
+                headline: req.body.headline,
+                body: req.body.body,
+                time: req.body.time,
+                tweet_id: "",
+                second_tweet_id: "",
+                quote: req.body.quotedid,
+                quote_headline: "",
+                quote_body: "",
+                quote_time: ""
+                // tweet_id: tweet.id_str
+            });
+            newUpdWithQuote.save();
+
+            if (toggleTweet) {
+                if (toggleQuoteSecond) {
+                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_secondTweetID }, function (error, tweet, response) {
+                        if (error) {
+                            console.log(error)
+                        } else {
+                            // console.log(tweet);
+                            // console.log(newUpdWithQuote._id);
+                            addTweetLink(0, newUpdWithQuote._id, tweet.id);
+                            addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
+
+                            // console.log("REPLY TO : " + tweet.id)
+                            if (toggleThread) {
+                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
+                                    if (error) {
+                                        console.log(error2)
+                                    } else {
+                                        console.log(secondtweet)
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else {
+                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function (error, tweet, response) {
+                        if (error) {
+                            console.log(error)
+                        } else {
+                            console.log(tweet);
+                            console.log(newUpdWithQuote._id);
+                            addTweetLink(0, newUpdWithQuote._id, tweet.id);
+                            addQuoteParameters(newUpdWithQuote._id, req.body.quotedid);
+
+                            // console.log("REPLY TO : " + tweet.id)
+                            if (toggleThread) {
+                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
+                                    if (error) {
+                                        console.log(error2)
+                                    } else {
+                                        console.log(secondtweet)
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
         }
     });
@@ -689,7 +748,7 @@ app.post("/review", function (req, res) {
 
     Doc.findOneAndUpdate({ '_id': usedid }, { $set: { headline: newHeadline, body: newBody, time: newTime } }).exec((err, doc) => {
         if (!err) {
-            console.log('DOCUMENT22   ', doc)
+            // console.log('DOCUMENT22   ', doc)
             if (toggleTweet && newBody != "") {
 
                 client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: doc.tweet_id }, function (error, secondtweet, response) {
@@ -697,7 +756,8 @@ app.post("/review", function (req, res) {
                         console.log(error)
                     }
                     else {
-                        console.log(secondtweet)
+                        // console.log(secondtweet)
+                        addTweetLink(1, doc._id, secondtweet.id_str);
                     }
                 });
 
@@ -720,6 +780,13 @@ app.post("/review", function (req, res) {
 app.post("/delete", function (req, res) {
     usedid = req.body.spotlightedid;
     console.log('delete this:   ', usedid)
+
+    //if tweet toggle is on: delete tweet(s)
+    // if(req.body.tweet){
+    // 
+    // }
+
+
     Doc.deleteOne({ '_id': usedid }, function (err) {
         if (err) {
             console.log(err);
@@ -776,7 +843,7 @@ app.post("/create", function (req, res) {
 
     var fs = require('fs');
 
-    fs.writeFile('articles/new.txt', '--- \n topic: ' + String(req.body.topic), '\n date: ' + String(req.body.date) + '\n hero_image: ' + String(req.body.image) + '\n and more', function (err) {
+    fs.writeFile('articles/' + String(req.body.title) + '.md', '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body), function (err) {
         if (err) {
             return console.log(err);
         }

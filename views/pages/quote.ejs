@@ -1,121 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../partials/head'); %>
 </head>
+
 <body class="container">
 
 
 
-<script>
-  /*
-    window.addEventListener('load', () => {
-    const now = new Date();
-    // console.log(now.getTimezoneOffset())
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    console.log(now.toISOString().split(".")[0])
-    console.log(now.toISOString().slice(0,16))
-    document.getElementById('time').value = now.toISOString().slice(0,16);
-    // document.getElementById('time').value = now.toISOString().slice(0,-1);
-
-    });
-  */
-
-  function time(){
+  <script>
+    /*
+      window.addEventListener('load', () => {
       const now = new Date();
       // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       console.log(now.toISOString().split(".")[0])
       console.log(now.toISOString().slice(0,16))
       document.getElementById('time').value = now.toISOString().slice(0,16);
-      }
+      // document.getElementById('time').value = now.toISOString().slice(0,-1);
+  
+      });
+    */
+
+    function time() {
+      const now = new Date();
+      // console.log(now.getTimezoneOffset())
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      console.log(now.toISOString().split(".")[0])
+      console.log(now.toISOString().slice(0, 16))
+      document.getElementById('time').value = now.toISOString().slice(0, 16);
+    }
     window.addEventListener('load', () => {
       console.log("loaded");
       time()
     });
     // setInterval(time,1000);
-</script>
+  </script>
 
 
 
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
 
-<main>
-  <div class="jumbotron">
-    <!-- <h1>Posting data from HTML to Mongo</h1> -->
-    <h1 class="pagetitle">Publish Breaking News Updates</h1>
-<div class="main-container">
-    
-
+  <main>
+    <div class="jumbotron">
+      <!-- <h1>Posting data from HTML to Mongo</h1> -->
+      <h1 class="pagetitle">Publish Breaking News Updates</h1>
+      <div class="main-container">
 
 
-    <div class="new-update-container">
-        <div class="old-update-container" style="background-color: aliceblue;">
-            <div class="time-old-div"><span class="time-old" style="color: grey"><%= quoted.time.slice(11,16) %> @ <%= quoted.time.slice(8,10) %>/<%= quoted.time.slice(5,7) %>/<%= quoted.time.slice(0,4) %></span></div>
-            <div class="headline-old-div"><span class="headline-old" ><%= quoted.headline %></span></div>
-            <div><span class="body-old" ><%= quoted.body %></span></div>
+
+
+        <div class="new-update-container">
+          <div class="old-update-container" style="background-color: aliceblue;">
+            <div class="time-old-div"><span class="time-old" style="color: grey">
+                <%= quoted.time.slice(11,16) %> @ <%= quoted.time.slice(8,10) %>/<%= quoted.time.slice(5,7) %>/<%=
+                        quoted.time.slice(0,4) %>
+              </span></div>
+            <div class="headline-old-div"><span class="headline-old">
+                <%= quoted.headline %>
+              </span></div>
+            <div><span class="body-old">
+                <%= quoted.body %>
+              </span></div>
             <!-- <div><textarea name="quotedid" id="quotedid"><%= quoted._id %></textarea></div> -->
             <!-- <div><span class="objectid" id="quotedid">ObjectId: <%= quoted._id %></span></div> -->
-        
 
-        <hr style="margin-bottom: 1rem;">
-        </div>
 
-        <form method="post" action="/quote">
+            <hr style="margin-bottom: 1rem;">
+          </div>
+
+          <form method="post" action="/quote">
             <div><input type="datetime-local" name="time" id="time"></div>
-            <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת" style="height:10rem"></textarea></div>
-            <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה" style="height:6rem"></textarea></div>
-            <div><label class="switch">
+            <div>
+              <textarea name="headline" id="headline" class="headline" placeholder="כותרת" style="height:10rem"></textarea>
+              </div>
+            <div>
+              <textarea name="body" id="body" class="body" placeholder="כותרת משנה" style="height:6rem"></textarea>
+            </div>
+            <div>
+              <label class="switch">
                 <input type="checkbox" checked name="tweet" id="tweet">
                 <span class="slider round tweet"></span>
-            </label> &nbsp;
-            <label class="switch">
+              </label> &nbsp;
+              <label class="switch">
                 <input type="checkbox" name="thread" id="thread">
                 <span class="threader round"></span>
-            </label></div>
+              </label>
+              <label class="switch">
+                <input type="checkbox" name="quotesecond" id="quotesecond">
+                <span class="quotesecond round"></span>
+              </label>
+            </div>
             <div><textarea name="quotedid" id="quotedid" style="font-size: 0.5rem;"><%= quoted._id %></textarea></div>
             <div class="sendbutton"><button class="sendbutton">Publish</button></div>
-      </form>
-</div>
+          </form>
+        </div>
 
 
 
-<!--v1-->
-<!-- <div id="old" name="old" class="update-list-container">
+        <!--v1-->
+        <!-- <div id="old" name="old" class="update-list-container">
     <%updateList.forEach(update => {%>
       <p><%= update.headline %></p>
       <span><%= update.body %> @ <%= update.time %></span>
       <%})%>
 </div> -->
 
-<!--v2-->
-<div id="old" name="old" class="update-list-container">
-  <%updateList.forEach(update => {%>
-    <div class="old-update-container">
-    <!-- <div class="new-update-container"> -->
-      <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
-      <div class="time-old-div"><span class="time-old"><%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%= update.time.slice(0,4) %></span></div>
-      <div class="headline-old-div"><span class="headline-old" ><%= update.headline %></span></div>
-      <div><span class="body-old" ><%= update.body %></span></div>
-      <div class="quote-button" style=" text-align: center;">
-        <a class="nav-link quote-text" href="/quote?id=<%= update._id %>">&#10078;</a>
+        <!--v2-->
+        <div id="old" name="old" class="update-list-container">
+          <%updateList.forEach(update=> {%>
+            <div class="old-update-container">
+              <!-- <div class="new-update-container"> -->
+              <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
+              <div class="time-old-div"><span class="time-old">
+                  <%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%=
+                          update.time.slice(0,4) %>
+                </span></div>
+              <div class="headline-old-div"><span class="headline-old">
+                  <%= update.headline %>
+                </span></div>
+              <div><span class="body-old">
+                  <%= update.body %>
+                </span></div>
+              <div class="quote-button" style=" text-align: center;">
+                <a class="nav-link quote-text" href="/quote?id=<%= update._id %>">&#10078;</a>
+              </div>
+              <div><span class="objectid">ObjectId: <%= update._id %></span></div>
+            </div>
+            <!-- </div> -->
+            <hr style="margin-bottom: 1rem">
+
+            <%})%>
+        </div>
       </div>
-      <div><span class="objectid">ObjectId: <%= update._id %></span></div>
-    </div>
-    <!-- </div> -->
-    <hr style="margin-bottom: 1rem">
+  </main>
 
-    <%})%>
-</div>
-</div>
-</main>
-
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
 
 </body>
+
 </html>
