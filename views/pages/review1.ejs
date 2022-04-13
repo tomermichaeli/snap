@@ -18,21 +18,26 @@
     <div class="jumbotron">
       <div class="main-container">
         <div class="new-update-container">
-          <form method="post" action="/">
-            <div><input type="datetime-local" name="time" id="time"></div>
-            <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת" rows="5"></textarea></div>
-            <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה" rows="5"></textarea>
-            </div>
-            <div><label class="switch">
-                <input type="checkbox" checked name="tweet" id="tweet">
-                <span class="slider round tweet"></span>
-              </label> &nbsp;
+          <form method="post" action="/review1">
+            <div><input type="datetime-local" name="time" id="time" value=<%=spotlight.time %>></div>
+            <div><textarea name="headline" id="headline" class="headline" rows="4"
+                placeholder="כותרת"><%= spotlight.headline %></textarea></div>
+            <div><textarea name="body" id="body" class="body" rows="6"
+                placeholder="כותרת משנה"><%= spotlight.body %></textarea></div>
+
+            <div>
               <label class="switch">
-                <input type="checkbox" name="thread" id="thread">
-                <span class="threader round"></span>
+                <input type="checkbox" name="tweet" id="tweet">
+                <span class="slider round tweet"></span>
               </label>
             </div>
-            <div class="sendbutton"><button class="sendbutton">Publish</button></div>
+
+            <div class="updatebuttons">
+              <button class="updatebutton">Update</button>
+              <button class="deletebutton" formaction="/delete?id=" <%=spotid %>>Delete</button>
+            </div>
+            <div><textarea class="display-objectid" name="spotlightedid" id="spotlightedid" rows="1"
+                readonly><%= spotid %></textarea></div>
           </form>
         </div>
 
@@ -58,7 +63,7 @@
                 <a class="nav-link quote-text" href="/quote?id=<%= update._id %>"
                   style="padding-top: 0.6rem;">&#10078;</a> &nbsp;
 
-                <a class="nav-link quote-text" href="/review?id=<%= update._id %>">
+                <a class="nav-link quote-text" href="/review1?id=<%= update._id %>">
                   <svg xmlns="http://www.w3.org/2000/svg" class="svgediticon" fill="none" viewBox="0 0 24 24"
                     stroke="white">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

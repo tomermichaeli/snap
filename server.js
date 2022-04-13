@@ -252,7 +252,7 @@ app.get("/review", requiresAuth(), function (req, res) {
 
 
                     Doc.find({}, function (err, updates) {
-                        res.render('pages/review', {
+                        res.render('pages/review1', {
                             updateList: updates,
                             // spotlight: updates[{"_id": req.query.id}]
                             spotlight: spotlightdoc,
@@ -796,7 +796,7 @@ app.post("/delete", function (req, res) {
         }
     });
     // res.redirect("/review?id=" + usedid);
-    res.redirect("/review");
+    res.redirect("/review1");
 })
 
 
