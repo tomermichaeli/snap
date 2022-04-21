@@ -310,7 +310,7 @@ div.updatebuttons {
 }
 .updatebutton,
 .deletebutton {
-    width: 40%;
+    width: 30%;
     text-align: center;
     margin: auto;
     background-color: #d77370;
@@ -321,6 +321,9 @@ div.updatebuttons {
     /* border-radius: 0.5rem; */
     padding-left: 3rem;
     padding-right: 3rem;
+}
+.updatebutton{
+    background-color: dodgerblue;
 }
 
 .col-sm-8-upd {
