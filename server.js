@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
-
+//
+const { Octokit } = require("@octokit/core");
+const octokit = new Octokit({ auth: `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` });
+//
 
 const config = {
     authRequired: false,
@@ -77,7 +80,8 @@ function addTweetLink(i, docID, tweetID) { //if i=0: main tweet, else: second tw
     if (i == 0) {
         Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
             if (!err) {
-                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
+                // console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
+                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc._id);
             }
             else {
                 console.log(err)
@@ -87,7 +91,7 @@ function addTweetLink(i, docID, tweetID) { //if i=0: main tweet, else: second tw
     else {
         Doc.findOneAndUpdate({ '_id': docID }, { $set: { second_tweet_id: tweetID } }).exec((err, doc) => {
             if (!err) {
-                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
+                console.log('Added tweet id ', tweetID, ' to document: \n  ', doc._id);
             }
             else {
                 console.log(err)
@@ -246,11 +250,11 @@ app.get("/review", requiresAuth(), function (req, res) {
         // find document with id:
         Doc.findOne({ '_id': req.query.id }).exec((err, doc) => {
             if (!err) {
-                console.log('DOCUMENT   ', doc)
+                // console.log('DOCUMENT   ', doc)
                 doc.toObject({ getters: true });
                 console.log('doc _id:', doc._id);
                 spotlightdoc = doc;
-                console.log('DOCUMENT   ', spotlightdoc)
+                // console.log('DOCUMENT   ', spotlightdoc)
 
 
                 Doc.find({}, function (err, updates) {
@@ -269,11 +273,11 @@ app.get("/review", requiresAuth(), function (req, res) {
     else {
         Doc.findOne({}).sort({ "time": -1 }).exec((err, doc) => {
             if (!err) {
-                console.log('DOCUMENT   ', doc)
+                // console.log('DOCUMENT   ', doc)
                 doc.toObject({ getters: true });
                 console.log('doc _id:', doc._id);
                 spotlightdoc = doc;
-                console.log('DOCUMENT   ', spotlightdoc)
+                // console.log('DOCUMENT   ', spotlightdoc)
 
 
                 Doc.find({}, function (err, updates) {
@@ -446,18 +450,34 @@ app.get("/create", requiresAuth(), function (req, res) {
 });
 
 app.post("/create", function (req, res) {
-    // console.log('delete this:   ', usedid);
     console.log('creating file...')
 
 
-    var fs = require('fs');
+    // var fs = require('fs');
+    var filecontent = '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body);
 
-    fs.writeFile('articles/' + String(req.body.title) + '.md', '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body), function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
-    });
+    // fs.writeFile('articles/' + String(req.body.title) + '.md', '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body), function (err) {
+    //     if (err) {
+    //         return console.log(err);
+    //     }
+    //     console.log("The file was saved!");
+    // });
+
+    const encoded = Buffer.from(filecontent, 'utf8').toString('base64')  
+
+    octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+        owner: 'tomermichaeli',
+        repo: 'newsil',
+        path: 'content/posts/'+String(req.body.title) + '.md',
+        message: 'Update from SNAP',
+        committer: {
+          name: 'Tomer',
+          email: 'michaelitomer@gmail.com'
+        },
+        // content: 'bXkgbmV3IGZpbGUgY29udGVudHM='
+        content: encoded
+      });
+      console.log("Check GitHub - newsil/content/posts");
 
     res.redirect("/");
 });
@@ -480,9 +500,26 @@ app.get("/archive", requiresAuth(), function (req, res) {
 
 app.post("/delete", function (req, res) {
     usedid = req.body.spotlightedid;
-    console.log('delete this:   ', usedid)
+    console.log('delete this:   ', usedid);
 
+    toggleTweet = req.body.tweet;
 
+    // if(toggleTweet){
+    //     Doc.findOne({ '_id': usedid }).exec((err, doc) => {
+    //         if(!err){
+    //             deleteTweetId = doc.tweet_id;
+    //             console.log("deleteTweetId:" + deleteTweetId);
+    //             client.post('statuses/destroy/:id', {id: 1162399231346430000}, function (error) {
+    //                 if (error) {
+    //                     console.log(error)
+    //                 }
+    //                 else {
+    //                     console.log("Successfully deleted tweet.");
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
 
 
     Doc.deleteOne({ '_id': usedid }, function (err) {
