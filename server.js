@@ -6,7 +6,7 @@ const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 //
 const { Octokit } = require("@octokit/core");
-const octokit = new Octokit({ auth: `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` });
+const octokit = new Octokit({ auth: `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` });
 //
 
 const config = {
@@ -463,21 +463,25 @@ app.post("/create", function (req, res) {
     //     console.log("The file was saved!");
     // });
 
-    const encoded = Buffer.from(filecontent, 'utf8').toString('base64')  
+    const encoded = Buffer.from(filecontent, 'utf8').toString('base64');
+
+    octokit
+        .request("GET /")
+        .then(console.log, console.log);
 
     octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
         owner: 'tomermichaeli',
         repo: 'newsil',
-        path: 'content/posts/'+String(req.body.title) + '.md',
+        path: 'content/posts/' + String(req.body.title) + '.md',
         message: 'Update from SNAP',
         committer: {
-          name: 'Tomer',
-          email: 'michaelitomer@gmail.com'
+            name: 'Tomer',
+            email: 'michaelitomer@gmail.com'
         },
         // content: 'bXkgbmV3IGZpbGUgY29udGVudHM='
         content: encoded
-      });
-      console.log("Check GitHub - newsil/content/posts");
+    });
+    console.log("Check GitHub - newsil/content/posts");
 
     res.redirect("/");
 });
