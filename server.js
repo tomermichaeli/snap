@@ -107,15 +107,15 @@ function addQuoteParameters(newUpdateID, quotedUpdateID) {
         console.log(qHeadline, qBody, qTime);
         Doc.findOneAndUpdate({ '_id': newUpdateID },
             { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime } }).exec((err, doc) => {
-            console.log(newUpdateID);
-            console.log(doc);
-            if (!err) {
-                console.log('Added quoted update parameters from ', quotedUpdateID, ' to document:  ', doc);
-            }
-            else {
-                console.log(err)
-            }
-        })
+                console.log(newUpdateID);
+                console.log(doc);
+                if (!err) {
+                    console.log('Added quoted update parameters from ', quotedUpdateID, ' to document:  ', doc);
+                }
+                else {
+                    console.log(err)
+                }
+            })
     })
 }
 
@@ -169,15 +169,17 @@ app.post("/", function (req, res) {
                 addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
-                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                        if (error) {
-                            console.log(error2)
-                        } else {
-                            console.log(secondtweet)
-                            addTweetLink(1, newUpd._id, secondtweet.id_str);
-                            console.log("response:" + response);
-                        }
-                    });
+                    client.post("statuses/update",
+                        { status: req.body.body, in_reply_to_status_id: tweet.id_str },
+                        function (error2, secondtweet, response) {
+                            if (error) {
+                                console.log(error2)
+                            } else {
+                                console.log(secondtweet)
+                                addTweetLink(1, newUpd._id, secondtweet.id_str);
+                                console.log("response:" + response);
+                            }
+                        });
 
                 }
             }
