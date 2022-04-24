@@ -148,7 +148,6 @@ app.get("/", requiresAuth(), function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    console.log(req.body.tweet);
     var toggleTweet = req.body.tweet;
     var toggleThread = req.body.thread;
     let newUpd = new Doc({
@@ -180,7 +179,6 @@ app.post("/", function (req, res) {
                                 console.log("response:" + response);
                             }
                         });
-
                 }
             }
         });
