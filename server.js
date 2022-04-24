@@ -72,7 +72,6 @@ const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
 /* functions */
 
 function addTweetLink(i, docID, tweetID) { //if i=0: main tweet, else: second tweet
-    // Doc.findOneAndUpdate({'_id': docID}, { $set: { tweet_id: [tweetID] }}).exec((err, doc) => {
     if (i == 0) {
         Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
             if (!err) {
