@@ -157,7 +157,6 @@ app.post("/", function (req, res) {
         time: req.body.time,
         tweet_id: "",
         second_tweet_id: ""
-        // tweet_id: tweet.id_str
     });
     newUpd.save();
     if (toggleTweet) {
@@ -167,7 +166,6 @@ app.post("/", function (req, res) {
             } else {
                 console.log(tweet);
                 console.log(newUpd._id);
-                // addTweetLink(newUpd._id, tweet.id);
                 addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
