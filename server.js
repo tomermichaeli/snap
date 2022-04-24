@@ -238,25 +238,15 @@ app.post("/lite", function (req, res) {
 /* review GET,POST */
 
 app.get("/review", requiresAuth(), function (req, res) {
-    console.log('requested: ', req.query.id)
     var spotlightdoc = null;
-    console.log(req.query.id)
-
     if (req.query.id != null) {
-        // find document with id:
         Doc.findOne({ '_id': req.query.id }).exec((err, doc) => {
             if (!err) {
-                // console.log('DOCUMENT   ', doc)
                 doc.toObject({ getters: true });
-                console.log('doc _id:', doc._id);
                 spotlightdoc = doc;
-                // console.log('DOCUMENT   ', spotlightdoc)
-
-
                 Doc.find({}, function (err, updates) {
                     res.render('pages/review', {
                         updateList: updates,
-                        // spotlight: updates[{"_id": req.query.id}]
                         spotlight: spotlightdoc,
                         spotid: spotlightdoc._id
                     })
@@ -269,26 +259,17 @@ app.get("/review", requiresAuth(), function (req, res) {
     else {
         Doc.findOne({}).sort({ "time": -1 }).exec((err, doc) => {
             if (!err) {
-                // console.log('DOCUMENT   ', doc)
                 doc.toObject({ getters: true });
-                console.log('doc _id:', doc._id);
                 spotlightdoc = doc;
-                // console.log('DOCUMENT   ', spotlightdoc)
-
-
                 Doc.find({}, function (err, updates) {
                     res.render('pages/review', {
                         updateList: updates,
-                        // spotlight: updates[{"_id": req.query.id}]
                         spotlight: spotlightdoc,
                         spotid: spotlightdoc._id
                     })
                 }).sort({ "time": -1 }).limit(10);
-
-
             }
-        }
-        )
+        })
     }
 });
 
