@@ -56,9 +56,7 @@ mongoose.connect(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 const DocSchema = {
     headline: String,
     body: String,
-    // time: {type: Date, default: Date.now}
     time: String,
-    // tweet_id: Array
     tweet_id: String,
     second_tweet_id: String,
     quote: String,
@@ -69,7 +67,6 @@ const DocSchema = {
 
 const Doc = mongoose.model("updates", DocSchema); //(collection, data schema)
 // MongoDB
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /* functions */
