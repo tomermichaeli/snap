@@ -105,7 +105,8 @@ function addQuoteParameters(newUpdateID, quotedUpdateID) {
         qTime = doc.time;
         qTime = doc.time.slice(11, 16) + " • " + doc.time.slice(8, 10) + "/" + doc.time.slice(5, 7) + "/" + doc.time.slice(0, 4)
         console.log(qHeadline, qBody, qTime);
-        Doc.findOneAndUpdate({ '_id': newUpdateID }, { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime } }).exec((err, doc) => {
+        Doc.findOneAndUpdate({ '_id': newUpdateID },
+            { $set: { quote_headline: qHeadline, quote_body: qBody, quote_time: qTime } }).exec((err, doc) => {
             console.log(newUpdateID);
             console.log(doc);
             if (!err) {
