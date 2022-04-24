@@ -423,8 +423,13 @@ app.post("/create", function (req, res) {
     var fs = require('fs');
 
     console.log('creating file...')
-
-    var filecontent = '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body);
+    var filecontent = '---\ntopic: ' 
+        + String(req.body.topic) + '\ndate: ' + String(req.body.datetime)
+        + '\nhero_image: ' + String(req.body.image)
+        + '\ntitle: ' + String(req.body.title)
+        + '\narticle_title: ' + String(req.body.heading)
+        + '\nauthor: ' + String(req.body.author)
+        + "\n\n---\n" + String(req.body.body);
 
     fs.writeFile('articles/' + String(req.body.title) + '.md', filecontent, function (err) {
         if (err) {
@@ -436,7 +441,6 @@ app.post("/create", function (req, res) {
     const encoded = Buffer.from(filecontent, 'utf8').toString('base64');
 
     octokit.request("GET /").then(console.log, console.log);
-
     octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
         owner: 'tomermichaeli',
         repo: 'newsil',
