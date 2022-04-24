@@ -75,7 +75,6 @@ function addTweetLink(i, docID, tweetID) { //if i=0: main tweet, else: second tw
     if (i == 0) {
         Doc.findOneAndUpdate({ '_id': docID }, { $set: { tweet_id: tweetID } }).exec((err, doc) => {
             if (!err) {
-                // console.log('Added tweet id ', tweetID, ' to document: \n  ', doc);
                 console.log('Added tweet id ', tweetID, ' to document: \n  ', doc._id);
             }
             else {
