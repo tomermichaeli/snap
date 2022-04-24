@@ -100,7 +100,6 @@ function addQuoteParameters(newUpdateID, quotedUpdateID) {
     console.log(newUpdateID);
     Doc.findOne({ '_id': quotedUpdateID }).exec((err, doc) => {
         console.log("Quoted Update = ", doc);
-
         qHeadline = doc.headline;
         qBody = doc.body;
         qTime = doc.time;
