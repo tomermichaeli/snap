@@ -4,10 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
-//
 const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({ auth: `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` });
-//
+
 
 const config = {
     authRequired: false,
