@@ -132,8 +132,8 @@ app.get('/a', (req, res) => {
 
 
 /* GET stylesheets */
-app.get("/styles.css", function (req, res) { res.sendFile(__dirname + "/styles.css") })
-app.get("/otherstyles.css", function (req, res) { res.sendFile(__dirname + "/otherstyles.css") })
+app.get("/styles.css", function (req, res) { res.sendFile(__dirname + "/styles.css") });
+app.get("/otherstyles.css", function (req, res) { res.sendFile(__dirname + "/otherstyles.css") });
 
 
 
