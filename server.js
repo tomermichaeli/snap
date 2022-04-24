@@ -308,17 +308,10 @@ app.post("/review", function (req, res) {
 
 app.get("/quote", requiresAuth(), function (req, res) {
     console.log('requested: ', req.query.id)
-    var spotlightdoc = null;
-
-    console.log(req.query.id)
-
     if (req.query.id != null) {
-        // find document with id:
         Doc.findOne({ '_id': req.query.id }).exec((err, quotedUpdate) => {
             if (!err) {
-                // console.log('DOCUMENT   ', quotedUpdate)
                 quotedUpdate.toObject({ getters: true });
-                // console.log('doc _id:', quotedUpdate._id);
                 quotedTweetID = quotedUpdate.tweet_id;
                 quotedSecondTweetID = quotedUpdate.second_tweet_id;
                 if (quotedSecondTweetID == null) {
@@ -327,7 +320,6 @@ app.get("/quote", requiresAuth(), function (req, res) {
                 console.log(quotedTweetID);
                 console.log(quotedSecondTweetID);
 
-
                 Doc.find({}, function (err, updates) {
                     res.render('pages/quote', {
                         updateList: updates,
@@ -335,8 +327,6 @@ app.get("/quote", requiresAuth(), function (req, res) {
                         quotedid: quotedUpdate._id
                     })
                 }).sort({ "time": -1 }).limit(10);
-
-
             }
         });
     }
