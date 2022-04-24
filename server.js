@@ -420,24 +420,22 @@ app.get("/create", requiresAuth(), function (req, res) {
 });
 
 app.post("/create", function (req, res) {
+    var fs = require('fs');
+
     console.log('creating file...')
 
-
-    // var fs = require('fs');
     var filecontent = '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body);
 
-    // fs.writeFile('articles/' + String(req.body.title) + '.md', '---\ntopic: ' + String(req.body.topic) + '\ndate: ' + String(req.body.datetime) + '\nhero_image: ' + String(req.body.image) + '\ntitle: ' + String(req.body.title) + '\narticle_title: ' + String(req.body.heading) + '\nauthor: ' + String(req.body.author) + "\n\n---\n" + String(req.body.body), function (err) {
-    //     if (err) {
-    //         return console.log(err);
-    //     }
-    //     console.log("The file was saved!");
-    // });
+    fs.writeFile('articles/' + String(req.body.title) + '.md', filecontent, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The file was saved locally.");
+    });
 
     const encoded = Buffer.from(filecontent, 'utf8').toString('base64');
 
-    octokit
-        .request("GET /")
-        .then(console.log, console.log);
+    octokit.request("GET /").then(console.log, console.log);
 
     octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
         owner: 'tomermichaeli',
@@ -448,7 +446,6 @@ app.post("/create", function (req, res) {
             name: 'Tomer',
             email: 'michaelitomer@gmail.com'
         },
-        // content: 'bXkgbmV3IGZpbGUgY29udGVudHM='
         content: encoded
     });
     console.log("Check GitHub - newsil/content/posts");
