@@ -215,14 +215,17 @@ app.post("/lite", function (req, res) {
                 addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
-                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                        if (error) {
-                            console.log(error2)
-                        } else {
-                            console.log(secondtweet)
-                            addTweetLink(1, newUpd._id, secondtweet.id_str);
-                        }
-                    });
+                    client.post("statuses/update",
+                        { status: req.body.body, in_reply_to_status_id: tweet.id_str },
+                        function (error2, secondtweet, response) {
+                            if (error) {
+                                console.log(error2)
+                            } else {
+                                console.log(secondtweet)
+                                addTweetLink(1, newUpd._id, secondtweet.id_str);
+                                console.log("response:" + response);
+                            }
+                        });
                 }
             }
         });
