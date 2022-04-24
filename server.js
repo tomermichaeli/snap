@@ -285,12 +285,15 @@ app.post("/review", function (req, res) {
         if (!err) {
             if (toggleTweet && newBody != "") {
                 console.log("Reply to tweet: " + doc.tweet_id);
-                client.post("statuses/update", { in_reply_to_status_id: doc.tweet_id, status: req.body.body }, function (error, secondtweet, response) {
+                client.post("statuses/update",
+                { in_reply_to_status_id: doc.tweet_id, status: req.body.body },
+                function (error, secondtweet, response) {
                     if (error) {
-                        console.log(error)
+                        console.log(error);
                     }
                     else {
                         addTweetLink(1, doc._id, secondtweet.id_str);
+                        console.log(response);
                     }
                 });
             }
