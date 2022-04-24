@@ -175,6 +175,7 @@ app.post("/", function (req, res) {
                         } else {
                             console.log(secondtweet)
                             addTweetLink(1, newUpd._id, secondtweet.id_str);
+                            console.log("response:" + response);
                         }
                     });
 
