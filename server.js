@@ -211,7 +211,7 @@ app.post("/lite", function (req, res) {
                 console.log(error)
             } else {
                 console.log(tweet);
-                console.log(newUpd._id);
+                console.log(response);
                 addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
