@@ -339,16 +339,13 @@ app.get("/quote", requiresAuth(), function (req, res) {
 app.post("/quote", function (req, res) {
     Doc.findOne({ '_id': req.body.quotedid }).exec((err, doc) => {
         console.log(req.body.quotedid);
-        // console.log("found document", doc)
         if (!err) {
             var quoted_tweetID = doc.tweet_id;
             var quoted_secondTweetID = doc.second_tweet_id;
-            // console.log("quoted_tweetid: ", quoted_tweetID);
             var toggleTweet = req.body.tweet;
             var toggleThread = req.body.thread;
             var toggleQuoteSecond = req.body.quotesecond;
 
-            //1: save to database
             let newUpdWithQuote = new Doc({
                 headline: req.body.headline,
                 body: req.body.body,
@@ -359,7 +356,6 @@ app.post("/quote", function (req, res) {
                 quote_headline: "",
                 quote_body: "",
                 quote_time: ""
-                // tweet_id: tweet.id_str
             });
             newUpdWithQuote.save();
 
@@ -367,43 +363,53 @@ app.post("/quote", function (req, res) {
 
             if (toggleTweet) {
                 if (toggleQuoteSecond && quoted_secondTweetID != null) {
-                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_secondTweetID }, function (error, tweet, response) {
-                        if (error) {
-                            console.log(error)
-                        } else {
-                            addTweetLink(0, newUpdWithQuote._id, tweet.id_str);
-                            if (toggleThread) {
-                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                                    if (error) {
-                                        console.log(error2)
-                                    } else {
-                                        console.log(secondtweet)
-                                    }
-                                });
+                    client.post("statuses/update",
+                        { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_secondTweetID },
+                        function (error, tweet, response) {
+                            if (error) {
+                                console.log(error)
+                            } else {
+                                console.log(response);
+                                addTweetLink(0, newUpdWithQuote._id, tweet.id_str);
+                                if (toggleThread) {
+                                    client.post("statuses/update",
+                                        { status: req.body.body, in_reply_to_status_id: tweet.id_str },
+                                        function (error2, secondtweet, response) {
+                                            if (error) {
+                                                console.log(error2)
+                                            } else {
+                                                console.log(secondtweet);
+                                                console.log(response);
+                                            }
+                                        });
+                                }
                             }
-                        }
-                    });
+                        });
                 }
                 else {
-                    client.post("statuses/update", { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID }, function (error, tweet, response) {
-                        if (error) {
-                            console.log(error)
-                        } else {
-                            console.log(tweet);
-                            console.log(newUpdWithQuote._id);
-                            console.log("****Add tweet link****");
-                            addTweetLink(0, newUpdWithQuote._id, tweet.id_str);
-                            if (toggleThread) {
-                                client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                                    if (error) {
-                                        console.log(error2)
-                                    } else {
-                                        console.log(secondtweet)
-                                    }
-                                });
+                    client.post("statuses/update",
+                        { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID },
+                        function (error, tweet, response) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log(response);
+                                console.log(tweet);
+                                addTweetLink(0, newUpdWithQuote._id, tweet.id_str);
+                                if (toggleThread) {
+                                    client.post("statuses/update",
+                                        { status: req.body.body, in_reply_to_status_id: tweet.id_str },
+                                        function (error2, secondtweet, response) {
+                                            if (error) {
+                                                console.log(error2);
+                                            } else {
+                                                console.log(secondtweet);
+                                                console.log(response);
+                                            }
+                                        });
+                                }
                             }
-                        }
-                    });
+                        });
                 }
             }
         }
