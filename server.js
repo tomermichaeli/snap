@@ -423,7 +423,7 @@ app.post("/create", function (req, res) {
     var fs = require('fs');
 
     console.log('creating file...')
-    var filecontent = '---\ntopic: ' 
+    var filecontent = '---\ntopic: '
         + String(req.body.topic) + '\ndate: ' + String(req.body.datetime)
         + '\nhero_image: ' + String(req.body.image)
         + '\ntitle: ' + String(req.body.title)
@@ -482,7 +482,7 @@ app.post("/delete", function (req, res) {
             console.log(err);
         }
         else {
-            console.log('Deleted.')
+            console.log('Deleted.');
         }
     });
     res.redirect("/review");
@@ -490,21 +490,21 @@ app.post("/delete", function (req, res) {
 
 // toggleTweet = req.body.tweet;
 // if(toggleTweet){
-    //     Doc.findOne({ '_id': usedid }).exec((err, doc) => {
-    //         if(!err){
-    //             deleteTweetId = doc.tweet_id;
-    //             console.log("deleteTweetId:" + deleteTweetId);
-    //             client.post('statuses/destroy/:id', {id: 1162399231346430000}, function (error) {
-    //                 if (error) {
-    //                     console.log(error)
-    //                 }
-    //                 else {
-    //                     console.log("Successfully deleted tweet.");
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
+//     Doc.findOne({ '_id': usedid }).exec((err, doc) => {
+//         if(!err){
+//             deleteTweetId = doc.tweet_id;
+//             console.log("deleteTweetId:" + deleteTweetId);
+//             client.post('statuses/destroy/:id', {id: 1162399231346430000}, function (error) {
+//                 if (error) {
+//                     console.log(error)
+//                 }
+//                 else {
+//                     console.log("Successfully deleted tweet.");
+//                 }
+//             });
+//         }
+//     });
+// }
 
 
 
@@ -512,15 +512,14 @@ app.post("/delete", function (req, res) {
 
 app.post("/unquote", function (req, res) {
     usedid = req.body.spotlightedid;
-    console.log('unquote this:   ', usedid)
-    Doc.findOneAndUpdate({ '_id': usedid },);
+    console.log('unquote this:   ', usedid);
 
-
-    Doc.findOneAndUpdate({ '_id': usedid }, { $set: { quote: '', quote_headline: '', quote_body: '', quote_time: '' } }).exec((err, doc) => {
-        if (!err) {
-            console.log("UnQuoted document: \n" + doc);
-        }
-    });
+    Doc.findOneAndUpdate({ '_id': usedid },
+        { $set: { quote: '', quote_headline: '', quote_body: '', quote_time: '' } }).exec((err, doc) => {
+            if (!err) {
+                console.log("UnQuoted document: \n" + doc);
+            }
+        });
     res.redirect("/");
 });
 
