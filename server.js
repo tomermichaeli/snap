@@ -364,7 +364,10 @@ app.post("/quote", function (req, res) {
             if (toggleTweet) {
                 if (toggleQuoteSecond && quoted_secondTweetID != null) {
                     client.post("statuses/update",
-                        { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_secondTweetID },
+                        {
+                            status: req.body.headline,
+                            attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_secondTweetID
+                        },
                         function (error, tweet, response) {
                             if (error) {
                                 console.log(error)
