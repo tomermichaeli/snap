@@ -391,7 +391,10 @@ app.post("/quote", function (req, res) {
                 }
                 else {
                     client.post("statuses/update",
-                        { status: req.body.headline, attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID },
+                        {
+                            status: req.body.headline,
+                            attachment_url: 'https://twitter.com/thenewsil/status/' + quoted_tweetID
+                        },
                         function (error, tweet, response) {
                             if (error) {
                                 console.log(error);
