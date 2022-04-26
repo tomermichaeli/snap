@@ -594,16 +594,16 @@ var port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log("Server is running on port " + port);
-    // MongoClient.connect(uri, {useNewUrlParser: true}, {useUnifiedTopology: true}, (error, result) => {
-    //     if (error) throw error;
-    //     database = result.db("thenewsil")
-    //     console.log("Connected to database ", database.toString())
-    // })
 })
 
 
 
 
+// MongoClient.connect(uri, {useNewUrlParser: true}, {useUnifiedTopology: true}, (error, result) => {
+//     if (error) throw error;
+//     database = result.db("thenewsil")
+//     console.log("Connected to database ", database.toString())
+// })
 
 
 
