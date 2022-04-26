@@ -479,7 +479,18 @@ app.post("/delete", function (req, res) {
 
     toggleTweet = req.body.tweet;
 
-    // if(toggleTweet){
+    Doc.deleteOne({ '_id': usedid }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log('Deleted.')
+        }
+    });
+    res.redirect("/review");
+});
+
+// if(toggleTweet){
     //     Doc.findOne({ '_id': usedid }).exec((err, doc) => {
     //         if(!err){
     //             deleteTweetId = doc.tweet_id;
@@ -496,19 +507,7 @@ app.post("/delete", function (req, res) {
     //     });
     // }
 
-
-    Doc.deleteOne({ '_id': usedid }, function (err) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log('Deleted.')
-        }
-    });
-    res.redirect("/review");
-});
-
-
+    
 
 /* unquote POST*/
 
