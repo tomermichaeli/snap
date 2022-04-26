@@ -546,6 +546,7 @@ app.get("/updates", function (req, res) {
 
 
 /* publish from main website POST */
+/* Add to publish page on public website username+password. in POST function, check if username and password OK, only then post update */
 
 app.post("/abc", function (req, res) {
     var toggleTweet = req.body.tweet;
@@ -561,18 +562,22 @@ app.post("/abc", function (req, res) {
     if (toggleTweet) {
         client.post("statuses/update", { status: req.body.headline }, function (error, tweet, response) {
             if (error) {
-                console.log(error)
+                console.log(error);
             }
             else {
+                console.log(response);
                 addTweetLink(newUpd._id, tweet.id_str);
                 if (toggleThread) {
-                    client.post("statuses/update", { status: req.body.body, in_reply_to_status_id: tweet.id_str }, function (error2, secondtweet, response) {
-                        if (error) {
-                            console.log(error2)
-                        } else {
-                            console.log(secondtweet)
-                        }
-                    });
+                    client.post("statuses/update",
+                        { status: req.body.body, in_reply_to_status_id: tweet.id_str },
+                        function (error2, secondtweet, response) {
+                            if (error) {
+                                console.log(error2);
+                            } else {
+                                console.log(secondtweet);
+                                console.log(response);
+                            }
+                        });
                 }
             }
         });
