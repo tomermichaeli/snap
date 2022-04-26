@@ -381,6 +381,7 @@ app.post("/quote", function (req, res) {
                                             if (error) {
                                                 console.log(error2)
                                             } else {
+                                                addTweetLink(1, newUpdWithQuote._id, secondtweet.id_str);
                                                 console.log(secondtweet);
                                                 console.log(response);
                                             }
@@ -409,6 +410,7 @@ app.post("/quote", function (req, res) {
                                             if (error) {
                                                 console.log(error2);
                                             } else {
+                                                addTweetLink(1, newUpdWithQuote._id, secondtweet.id_str);
                                                 console.log(secondtweet);
                                                 console.log(response);
                                             }
