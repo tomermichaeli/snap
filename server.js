@@ -477,8 +477,6 @@ app.post("/delete", function (req, res) {
     usedid = req.body.spotlightedid;
     console.log('delete this:   ', usedid);
 
-    toggleTweet = req.body.tweet;
-
     Doc.deleteOne({ '_id': usedid }, function (err) {
         if (err) {
             console.log(err);
@@ -490,6 +488,7 @@ app.post("/delete", function (req, res) {
     res.redirect("/review");
 });
 
+// toggleTweet = req.body.tweet;
 // if(toggleTweet){
     //     Doc.findOne({ '_id': usedid }).exec((err, doc) => {
     //         if(!err){
@@ -507,7 +506,7 @@ app.post("/delete", function (req, res) {
     //     });
     // }
 
-    
+
 
 /* unquote POST*/
 
