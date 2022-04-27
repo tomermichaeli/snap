@@ -6,8 +6,8 @@ const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({ auth: `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` });
-
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
+dotenv.config();
 
 const config = {
     authRequired: false,
@@ -33,8 +33,6 @@ app.use(auth(config));
 // TWITTER
 const Twitter = require("twitter")
 const fs = require("fs")
-
-dotenv.config()
 
 const client = new Twitter({
     consumer_key: process.env.CONSUMER_KEY,
