@@ -7,16 +7,15 @@ const { requiresAuth } = require('express-openid-connect');
 const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({ auth: `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` });
 
+const dotenv = require("dotenv")
 
 const config = {
     authRequired: false,
     auth0Logout: true,
-    secret: 'a long, randomly-generated string stored in env',
-    // baseURL: 'http://localhost:3000',
-    baseURL: 'https://snaps.us.to',
-    // baseURL: 'https://thenewsil.netlify.app',
-    clientID: 'wsnDgRajqXM221ntDtDBRcBwY2lhWydv',
-    issuerBaseURL: 'https://dev-gx29acwz.us.auth0.com'
+    secret: process.env.SECRET_AUTH,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.CLIENT_ID,
+    issuerBaseURL: process.env.ISSUER_BASE_URL
 };
 
 app.set('view engine', 'ejs');
@@ -33,7 +32,6 @@ app.use(auth(config));
 
 // TWITTER
 const Twitter = require("twitter")
-const dotenv = require("dotenv")
 const fs = require("fs")
 
 dotenv.config()
