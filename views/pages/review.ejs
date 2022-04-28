@@ -8,7 +8,6 @@
 <body class="container">
 
 
-
   <header>
     <%- include('../partials/header'); %>
   </header>
@@ -31,8 +30,9 @@
                 <span class="slider round tweet"></span>
               </label>
             </div>
-            
-            <div><textarea class="display-objectid" name="spotlightedid" id="spotlightedid" rows="1" readonly><%= spotid %></textarea></div>
+
+            <div><textarea class="display-objectid" name="spotlightedid" id="spotlightedid" rows="1"
+                readonly><%= spotid %></textarea></div>
 
             <div class="updatebuttons">
               <button class="updatebutton">Update</button>
@@ -42,12 +42,9 @@
           </form>
         </div>
 
-
         <div id="old" name="old" class="update-list-container" style="overflow-y: auto; height: 80vh;">
           <%updateList.forEach(update=> {%>
             <div class="old-update-container">
-              <!-- <div class="new-update-container"> -->
-              <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
               <div class="time-old-div">
                 <span class="time-old">
                   <%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%=
@@ -61,8 +58,6 @@
                   <%= update.body %>
                 </span></div>
               <div class="quote-button" style=" text-align: center;">
-                <!-- <a class="nav-link quote-text" href="/quote?id=<%= update._id %>"
-                  style="padding-top: 0.6rem;">&#10078;</a> &nbsp; -->
 
                 <a class="nav-link quote-text" href="/review?id=<%= update._id %>">
                   <svg xmlns="http://www.w3.org/2000/svg" class="svgediticon" fill="none" viewBox="0 0 24 24"
@@ -77,9 +72,6 @@
               <div>
                 <span class="objectid">ObjectId: <%= update._id %></span>
               </div>
-
-
-
 
               <!--For updates that are quotes-->
               <% if(update.quote !=null){ %>
@@ -101,19 +93,10 @@
                         <% }) %>
                 </div>
                 <% } %>
-
-
-
-
-
-
             </div>
-            <!-- </div> -->
             <hr style="margin-bottom: 1rem">
-
             <%})%>
         </div>
-
       </div>
   </main>
 

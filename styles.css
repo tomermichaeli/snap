@@ -499,3 +499,31 @@ input:checked + .quotesecond:before {
 .quotesecond:before {
     border-radius: 50%;
 }
+
+
+.article-body{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1rem;
+    width: 90%;
+    border: none;
+    padding-right: 1rem;
+    outline: none;
+    background-color: #f8f9fa !important;
+    vertical-align: middle;
+}
+.article-hr{
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+.article-topic{
+    direction: rtl;
+    font-family: "Heebo", "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 0.85rem;
+    width: 15%;
+    border: none;
+    padding-right: 1rem;
+    outline: none;
+    background-color: #f8f9fa !important;
+    vertical-align: middle;
+}

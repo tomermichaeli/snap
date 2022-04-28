@@ -1,141 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../partials/head'); %>
 </head>
+
 <body class="container">
 
 
 
-<script>
-  /*
-    window.addEventListener('load', () => {
-    const now = new Date();
-    // console.log(now.getTimezoneOffset())
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    console.log(now.toISOString().split(".")[0])
-    console.log(now.toISOString().slice(0,16))
-    document.getElementById('time').value = now.toISOString().slice(0,16);
-    // document.getElementById('time').value = now.toISOString().slice(0,-1);
-
-    });
-  */
-
-    function time(){
+  <script>
+    function time() {
       const now = new Date();
-      // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       console.log(now.toISOString().split(".")[0])
-      console.log(now.toISOString().slice(0,16))
-      document.getElementById('time').value = now.toISOString().slice(0,16);
-      }
+      console.log(now.toISOString().slice(0, 16))
+      document.getElementById('time').value = now.toISOString().slice(0, 16);
+    }
     window.addEventListener('load', () => {
       console.log("loaded");
       time()
     });
-    setInterval(time,60000);
-</script>
+    setInterval(time, 60000);
+  </script>
 
 
 
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
 
-<main>
-  <div class="jumbotron">
-    <!-- <h1>Posting data from HTML to Mongo</h1> -->
-    <!-- <h1 class="pagetitle">Publish Breaking News Updates</h1> -->
-<div class="main-container">
-  <div class="new-update-container">
-      <form method="post" action="/">
-          <div><input type="datetime-local" name="time" id="time"></div>
-          <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת" rows="5"></textarea></div>
-          <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה" rows="5"></textarea></div>
-          <div><label class="switch">
-            <input type="checkbox" checked name="tweet" id="tweet">
-            <span class="slider round tweet"></span>
-          </label> &nbsp;
-          <label class="switch">
-            <input type="checkbox" name="thread" id="thread">
-            <span class="threader round"></span>
-          </label></div>
-          <div class="sendbutton"><button class="sendbutton">Publish</button></div>
-      </form>
-</div>
-
-
-
-<!--v1-->
-<!-- <div id="old" name="old" class="update-list-container">
-    <%updateList.forEach(update => {%>
-      <p><%= update.headline %></p>
-      <span><%= update.body %> @ <%= update.time %></span>
-      <%})%>
-</div> -->
-
-<!--v2-->
-<div id="old" name="old" class="update-list-container" style="overflow-y: auto; height: 80vh;">
-  <%updateList.forEach(update => {%>
-    <div class="old-update-container">
-    <!-- <div class="new-update-container"> -->
-      <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
-      <div class="time-old-div">
-        <span class="time-old"><%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%= update.time.slice(0,4) %></span>
-      </div>
-      <div class="headline-old-div"><span class="headline-old" ><%= update.headline %></span></div>
-      <div><span class="body-old" ><%= update.body %></span></div>
-      <div class="quote-button" style=" text-align: center;">
-        <a class="nav-link quote-text" href="/quote?id=<%= update._id %>" style="padding-top: 0.6rem;">&#10078;</a> &nbsp;
-
-          <a class="nav-link quote-text" href="/review?id=<%= update._id %>">
-            <svg xmlns="http://www.w3.org/2000/svg" class="svgediticon" fill="none" viewBox="0 0 24 24" stroke="white">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-          </a>
-
-      </div>
-
-      <div>
-        <span class="objectid">ObjectId: <%= update._id %></span>
-      </div>
-
-
-
-
-      <!--For updates that are quotes-->
-      <% if(update.quote != null){ %>
-        <div class="old-update-container">
-          <% updateList.forEach(update1 => { %>
-            <% if(update1._id == update.quote){ %>
-              <div class="old-update-container" style="background-color: #e7e7e79a; padding-bottom: 0.25rem;"">
-                <span class="time-old"><%= update1.time.slice(11,16) %> @ <%= update1.time.slice(8,10) %>/<%= update1.time.slice(5,7) %>/<%= update1.time.slice(0,4) %></span>
-                <div class="headline-old-div"><span class="headline-old" style="font-size: 1rem;" ><%= update1.headline %></span></div>
-                <div><span class="body-old" style="font-size: smaller;" ><%= update1.body %></span></div>
-              </div>
-            <% } %>
-          <% }) %>
+  <main>
+    <div class="jumbotron">
+      <!-- <h1>Posting data from HTML to Mongo</h1> -->
+      <!-- <h1 class="pagetitle">Publish Breaking News Updates</h1> -->
+      <div class="main-container">
+        <div class="new-update-container">
+          <form method="post" action="/">
+            <div><input type="datetime-local" name="time" id="time"></div>
+            <div><textarea name="headline" id="headline" class="headline" placeholder="כותרת" rows="5"></textarea></div>
+            <div><textarea name="body" id="body" class="body" placeholder="כותרת משנה" rows="5"></textarea></div>
+            <div><label class="switch">
+                <input type="checkbox" checked name="tweet" id="tweet">
+                <span class="slider round tweet"></span>
+              </label> &nbsp;
+              <label class="switch">
+                <input type="checkbox" name="thread" id="thread">
+                <span class="threader round"></span>
+              </label>
+            </div>
+            <div class="sendbutton"><button class="sendbutton">Publish</button></div>
+          </form>
         </div>
-      <% } %>
+
+        <div id="old" name="old" class="update-list-container" style="overflow-y: auto; height: 80vh;">
+          <%updateList.forEach(update=> {%>
+            <div class="old-update-container">
+              <div class="time-old-div">
+                <span class="time-old">
+                  <%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%=
+                          update.time.slice(0,4) %>
+                </span>
+              </div>
+              <div class="headline-old-div"><span class="headline-old">
+                  <%= update.headline %>
+                </span></div>
+              <div><span class="body-old">
+                  <%= update.body %>
+                </span></div>
+              <div class="quote-button" style=" text-align: center;">
+                <a class="nav-link quote-text" href="/quote?id=<%= update._id %>"
+                  style="padding-top: 0.6rem;">&#10078;</a> &nbsp;
+
+                <a class="nav-link quote-text" href="/review?id=<%= update._id %>">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="svgediticon" fill="none" viewBox="0 0 24 24"
+                    stroke="white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </a>
+
+              </div>
+
+              <div>
+                <span class="objectid">ObjectId: <%= update._id %></span>
+              </div>
 
 
+              <!--For updates that are quotes-->
+              <% if(update.quote !=null){ %>
+                <div class="old-update-container">
+                  <% updateList.forEach(update1=> { %>
+                    <% if(update1._id==update.quote){ %>
+                      <div class="old-update-container" style="background-color: #e7e7e79a; padding-bottom: 0.25rem;"">
+                <span class=" time-old">
+                        <%= update1.time.slice(11,16) %> @ <%= update1.time.slice(8,10) %>/<%= update1.time.slice(5,7)
+                              %>/<%= update1.time.slice(0,4) %></span>
+                                <div class="headline-old-div"><span class="headline-old" style="font-size: 1rem;">
+                                    <%= update1.headline %>
+                                  </span></div>
+                                <div><span class="body-old" style="font-size: smaller;">
+                                    <%= update1.body %>
+                                  </span></div>
+                      </div>
+                      <% } %>
+                        <% }) %>
+                </div>
+                <% } %>
+            </div>
+            <hr style="margin-bottom: 1rem">
+            <%})%>
+        </div>
+      </div>
+  </main>
 
-
-
-
-    </div>
-    <!-- </div> -->
-    <hr style="margin-bottom: 1rem">
-
-    <%})%>
-</div>
-</div>
-</main>
-
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
 
 </body>
+
 </html>

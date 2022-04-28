@@ -10,22 +10,8 @@
 
 
   <script>
-    /*
-      window.addEventListener('load', () => {
-      const now = new Date();
-      // console.log(now.getTimezoneOffset())
-      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-      console.log(now.toISOString().split(".")[0])
-      console.log(now.toISOString().slice(0,16))
-      document.getElementById('time').value = now.toISOString().slice(0,16);
-      // document.getElementById('time').value = now.toISOString().slice(0,-1);
-  
-      });
-    */
-
     function time() {
       const now = new Date();
-      // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       console.log(now.toISOString().split(".")[0])
       console.log(now.toISOString().slice(0, 16))
@@ -35,9 +21,7 @@
       console.log("loaded");
       time()
     });
-    // setInterval(time,1000);
   </script>
-
 
 
 
@@ -47,13 +31,7 @@
 
   <main>
     <div class="jumbotron">
-      <!-- <h1>Posting data from HTML to Mongo</h1> -->
-      <!-- <h1 class="pagetitle">Publish Breaking News Updates</h1> -->
       <div class="main-container">
-
-
-
-
         <div class="new-update-container" style="min-height: 80vh;">
           <div class="old-update-container" style="background-color: aliceblue;">
             <div class="time-old-div"><span class="time-old" style="color: grey">
@@ -66,23 +44,21 @@
             <div><span class="body-old">
                 <%= quoted.body %>
               </span></div>
-            <!-- <div><textarea name="quotedid" id="quotedid"><%= quoted._id %></textarea></div> -->
-            <!-- <div><span class="objectid" id="quotedid">ObjectId: <%= quoted._id %></span></div> -->
-
-
             <hr style="margin-bottom: 1rem;">
           </div>
 
           <form method="post" action="/quote">
             <div><input type="datetime-local" name="time" id="time"></div>
             <div>
-              <textarea name="headline" id="headline" class="headline" placeholder="כותרת" style="height:10rem"></textarea>
-              </div>
+              <textarea name="headline" id="headline" class="headline" placeholder="כותרת"
+                style="height:10rem"></textarea>
+            </div>
             <div>
               <textarea name="body" id="body" class="body" placeholder="כותרת משנה" style="height:6rem"></textarea>
             </div>
             <div>
-              <textarea name="quotedid" id="quotedid" class="display-objectid" style="font-size: 0.5rem; vertical-align: middle;" readonly><%= quoted._id %></textarea>
+              <textarea name="quotedid" id="quotedid" class="display-objectid"
+                style="font-size: 0.5rem; vertical-align: middle;" readonly><%= quoted._id %></textarea>
               &nbsp;
               &nbsp;
               &nbsp;
@@ -104,22 +80,9 @@
           </form>
         </div>
 
-
-
-        <!--v1-->
-        <!-- <div id="old" name="old" class="update-list-container">
-    <%updateList.forEach(update => {%>
-      <p><%= update.headline %></p>
-      <span><%= update.body %> @ <%= update.time %></span>
-      <%})%>
-</div> -->
-
-        <!--v2-->
         <div id="old" name="old" class="update-list-container" style="overflow-y: auto; height: 80vh">
           <%updateList.forEach(update=> {%>
             <div class="old-update-container">
-              <!-- <div class="new-update-container"> -->
-              <!-- <div><span class="time"><%= update.time.slice(0,16) %></span></div> -->
               <div class="time-old-div">
                 <span class="time-old">
                   <%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%=
@@ -143,15 +106,11 @@
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
                 </a>
-
               </div>
 
               <div>
                 <span class="objectid">ObjectId: <%= update._id %></span>
               </div>
-
-
-
 
               <!--For updates that are quotes-->
               <% if(update.quote !=null){ %>
@@ -174,15 +133,8 @@
                 </div>
                 <% } %>
 
-
-
-
-
-
             </div>
-            <!-- </div> -->
             <hr style="margin-bottom: 1rem">
-
             <%})%>
         </div>
       </div>

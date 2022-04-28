@@ -11,7 +11,6 @@
   <script>
     function time() {
       const now = new Date();
-      // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       console.log(now.toISOString().split(".")[0])
       console.log(now.toISOString().slice(0, 16))
@@ -36,7 +35,7 @@
             <div class="main-container">
               <div class="update-update-container">
                 <form method="post" action="/create">
-                  <div><select name="topic" id="topic" class="topic" placeholder="topic" rows="1">
+                  <div><select name="topic" id="topic" class="article-topic" placeholder="topic" rows="1">
                     <option selected value="חדשות">חדשות</option>
                     <option value="ביטחון">ביטחון</option>
                     <option value="פוליטיקה">פוליטיקה</option>
@@ -47,21 +46,21 @@
                     <option value="ספורט">ספורט</option>
                   </select></div>
                   <div><input type="datetime-local" name="datetime" id="datetime"></div>
-                  <div><textarea name="image" id="image" class="image" placeholder="image path..." rows="1"></textarea>
-                  </div>
-                  <div><textarea name="title" id="title" class="title" placeholder="title (url)" rows="1"></textarea></div>
-                  <div><textarea name="heading" id="heading" class="heading" placeholder="Article Heading"></textarea>
-                  </div>
-                  <div><textarea name="author" id="author" class="author" placeholder="author" rows="1">חדשות ישראל</textarea>
-                  </div>
-                  <div><textarea name="body" id="body" class="body" placeholder="body" rows="10"></textarea></div>
+                  <hr class="article-hr" width="10%" align="right" />
+                  <div><textarea name="image" id="image" class="article-body" style="direction: ltr; text-align:right; resize:none" placeholder="נתיב קובץ תמונה" rows="1"></textarea></div>
+                  <hr class="article-hr" width="10%" align="right" />
+                  <div><textarea name="title" id="title" class="article-body" style="resize:none" placeholder="כותרת קצרה" rows="1"></textarea></div>
+                  <hr class="article-hr" width="10%" align="right" />
+                  <div><textarea name="heading" id="heading" class="article-body" placeholder="כותרת הכתבה" rows="1"></textarea></div>
+                  <hr class="article-hr" width="10%" align="right" />
+                  <div><textarea name="author" id="author" class="article-body" style="resize:none" placeholder="author" rows="1">חדשות ישראל</textarea></div>
+                  <hr class="article-hr" width="10%" align="right" />
+                  <div><textarea name="body" id="body" class="body" placeholder="תוכן" rows="9"></textarea></div>
                   <div><button class="sendbutton">Publish</button></div>
                 </form>
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>

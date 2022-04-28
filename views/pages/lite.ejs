@@ -7,12 +7,9 @@
 
 <body class="container">
 
-
-
   <script>
     function time() {
       const now = new Date();
-      // console.log(now.getTimezoneOffset())
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       console.log(now.toISOString().split(".")[0])
       console.log(now.toISOString().slice(0, 16))
@@ -22,10 +19,7 @@
       console.log("loaded");
       time()
     });
-    // setInterval(time,1000);
   </script>
-
-
 
   <header>
     <%- include('../partials/headerlite'); %>
@@ -34,8 +28,6 @@
 
   <main>
     <div class="jumbotron">
-      <!-- <h1>Posting data from HTML to Mongo</h1> 
-    <h1 class="pagetitle">Publish Breaking News Updates</h1> -->
       <div class="main-container">
         <div class="new-update-container">
           <form method="post" action="/lite">
@@ -54,9 +46,6 @@
             <div class="sendbutton"><button class="sendbutton">Publish</button></div>
           </form>
         </div>
-
-
-
       </div>
     </div>
   </main>

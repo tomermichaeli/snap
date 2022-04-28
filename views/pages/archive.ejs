@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../partials/head'); %>
 </head>
+
 <body class="container">
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
 
-<main>
-<div class="row">
-    <div class="jumbotron">
-      <div id="old" name="old" class="update-list-container" style="overflow-y: auto; width:100%;">
-        <%updateList.forEach(update => {%>
-          <a href="/review?id=<%= update._id %>"">
-            <div class="full-update-container">
-              <div><span class="time-old"><%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%= update.time.slice(0,4) %></span></div>
-              <div><span class="headline-old" ><%= update.headline %></span></div>
-              <div><span class="body-old" ><%= update.body %></span></div>
+  <main>
+    <div class="row">
+      <div class="jumbotron">
+        <div id="old" name="old" class="update-list-container" style="overflow-y: auto; width:100%;">
+          <%updateList.forEach(update=> {%>
+            <a href="/review?id=<%= update._id %>"">
+            <div class=" full-update-container">
+              <div><span class="time-old">
+                  <%= update.time.slice(11,16) %> @ <%= update.time.slice(8,10) %>/<%= update.time.slice(5,7) %>/<%=
+                          update.time.slice(0,4) %>
+                </span></div>
+              <div><span class="headline-old">
+                  <%= update.headline %>
+                </span></div>
+              <div><span class="body-old">
+                  <%= update.body %>
+                </span></div>
               <div><span class="objectid">ObjectId: <%= update._id %></span></div>
-              
-            </div>
-            <hr style="margin-bottom: 1rem">
-          </a>
-          <%})%>
+        </div>
+        <hr style="margin-bottom: 1rem">
+        </a>
+        <%})%>
       </div>
     </div>
+    </div>
+  </main>
 
-
-</div>
-</main>
-
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
 
 </body>
+
 </html>
