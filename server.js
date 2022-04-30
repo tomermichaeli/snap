@@ -539,6 +539,7 @@ app.post("/create", function (req, res) {
 
 app.get("/archive", requiresAuth(), function (req, res) {
     Doc.find({}, function (err, updates) {
+        console.log(updates);
         res.render('pages/archive', {
             updateList: updates
         })
