@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 const { Octokit } = require("@octokit/core");
-const octokit = new Octokit({ auth: `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` });
+const octokit = new Octokit({ auth: `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` });
 const dotenv = require("dotenv");
 dotenv.config();
 
