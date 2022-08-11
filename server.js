@@ -117,6 +117,20 @@ function addQuoteParameters(newUpdateID, quotedUpdateID) {
     })
 }
 
+
+function deleteTweetByID(tweetID) {
+    client.post("statuses/destroy",
+        { id: tweetID },
+        function (err, response) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(response);
+                console.log("deleted tweet with id :" + tweetID);
+            }
+        });
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -561,6 +575,17 @@ app.post("/delete", function (req, res) {
         else {
             console.log('Deleted.');
         }
+    });
+    res.redirect("/review");
+});
+
+/* Delete tweet POST */
+app.post("/untweet", function (req, res) {
+    usedid = req.body.spotlightedid;
+    Doc.findOne({ '_id': usedid }).exec((err, doc) => {
+        console.log("Tweet id = ", doc.tweet_id);
+        untweet_id = doc.tweet_id;
+        deleteTweetByID(untweet_id);
     });
     res.redirect("/review");
 });
