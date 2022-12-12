@@ -8,6 +8,21 @@ const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({ auth: `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` });
 const dotenv = require("dotenv");
 dotenv.config();
+// // firebase
+// const initializeApp = require("firebase/app")
+// const getAnalytics = require("firebase/analytics")
+// const firebaseConfig = {
+//     apiKey: "AIzaSyALrmv8MSFmvdlWPIke34GEULTDowXT1qk",
+//     authDomain: "newsil-48397.firebaseapp.com",
+//     projectId: "newsil-48397",
+//     storageBucket: "newsil-48397.appspot.com",
+//     messagingSenderId: "491899852550",
+//     appId: "1:491899852550:web:725739a30065ec693eb087",
+//     measurementId: "G-VW8VQ57ZWL"
+//   };
+// // /firebase
+
+
 
 const config = {
     authRequired: false,
