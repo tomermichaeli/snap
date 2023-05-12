@@ -8,6 +8,12 @@ const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({ auth: `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` });
 const dotenv = require("dotenv");
 dotenv.config();
+
+// OAuth stuff
+const OAuth = require('oauth').OAuth;
+const crypto = require('crypto');
+//
+
 // // firebase
 // const initializeApp = require("firebase/app")
 // const getAnalytics = require("firebase/analytics")
@@ -190,8 +196,8 @@ app.post("/", function (req, res) {
             if (error) {
                 console.log(error)
             } else {
-                console.log(tweet);
-                console.log(response);
+                // console.log(tweet);
+                // console.log(response);
                 addTweetLink(0, newUpd._id, tweet.id_str);
                 console.log("REPLY TO : " + tweet.id)
                 if (toggleThread) {
